@@ -30,7 +30,7 @@ ssl_certificate /etc/letsencrypt/live/${REMOTE_DOMAIN}/fullchain.pem;
 ssl_certificate_key /etc/letsencrypt/live/${REMOTE_DOMAIN}/privkey.pem;
 ```
 
-The full NGINX configuration is stored in [`services/nginx/conf.d/zammad.conf`](../services/nginx/conf.d/zammad.conf) and mounts both Certbot volumes so these paths are available inside the container.
+The full NGINX configuration is stored in [`services/nginx/nginx.conf.template`](../services/nginx/nginx.conf.template) and mounts both Certbot volumes so these paths are available inside the container.
 
 ## Troubleshooting
 
@@ -47,4 +47,4 @@ The full NGINX configuration is stored in [`services/nginx/conf.d/zammad.conf`](
 
 - [Certbot Documentation](https://eff-certbot.readthedocs.io/en/stable/)
 - [`docker-compose.yaml`](../docker-compose.yaml)
-- [`services/nginx/conf.d/zammad.conf`](../services/nginx/conf.d/zammad.conf)
+- [`services/nginx/nginx.conf.template`](../services/nginx/nginx.conf.template)

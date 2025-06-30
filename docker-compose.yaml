@@ -11,10 +11,10 @@ volumes:
   certbot_www:
 
 services:
-  postgresql:
-    build: ./services/postgresql
-    image: ${DOCKER_REGISTRY}/postgresql:latest
-    restart: always
+  postgres:
+    build: ./services/postgres
+    image: ${DOCKER_REGISTRY}/postgres:latest
+    restart: unless-stopped
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -27,7 +27,7 @@ services:
   elasticsearch:
     build: ./services/elasticsearch
     image: ${DOCKER_REGISTRY}/elasticsearch:latest
-    restart: always
+    restart: unless-stopped
     environment:
       discovery.type: single-node
       ES_JAVA_OPTS: ${ES_JAVA_OPTS}
@@ -39,12 +39,12 @@ services:
   zammad:
     build: ./services/zammad
     image: ${DOCKER_REGISTRY}/zammad:latest
-    restart: always
+    restart: unless-stopped
     depends_on:
-      - postgresql
+      - postgres
       - elasticsearch
     environment:
-      POSTGRESQL_HOST: postgresql
+      POSTGRESQL_HOST: postgres
       ELASTICSEARCH_HOST: elasticsearch
       ZAMMAD_RAILS_TRUSTED_PROXIES: 0.0.0.0/0
       ZAMMAD_FQDN: ${REMOTE_DOMAIN}
@@ -58,10 +58,12 @@ services:
   nginx:
     build: ./services/nginx
     image: ${DOCKER_REGISTRY}/nginx:latest
+    restart: unless-stopped
     depends_on:
       - zammad
+    environment:
+      REMOTE_DOMAIN: ${REMOTE_DOMAIN}
     volumes:
-      - ./services/nginx/html:/usr/share/nginx/html
       - certbot_conf:/etc/letsencrypt
       - certbot_www:/var/www/certbot
     ports:
@@ -73,6 +75,7 @@ services:
   certbot:
     build: ./services/certbot
     image: ${DOCKER_REGISTRY}/certbot:latest
+    restart: unless-stopped
     volumes:
       - certbot_conf:/etc/letsencrypt
       - certbot_www:/var/www/certbot
