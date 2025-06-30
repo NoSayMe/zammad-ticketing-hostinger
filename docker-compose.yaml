@@ -1,0 +1,56 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+
+  elasticsearch:
+    image: elasticsearch:7.17.12
+    restart: always
+    environment:
+      discovery.type: single-node
+      ES_JAVA_OPTS: ${ES_JAVA_OPTS}
+    volumes:
+      - ./data/elasticsearch:/usr/share/elasticsearch/data
+
+  zammad:
+    image: zammad/zammad:latest
+    restart: always
+    depends_on:
+      - postgres
+      - elasticsearch
+    environment:
+      - POSTGRESQL_HOST=postgres
+      - ELASTICSEARCH_HOST=elasticsearch
+      - ZAMMAD_RAILS_TRUSTED_PROXIES=0.0.0.0/0
+    env_file:
+      - .env
+    volumes:
+      - ./data/zammad:/opt/zammad
+
+  nginx:
+    image: nginx:alpine
+    depends_on:
+      - zammad
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./certs:/etc/letsencrypt
+      - ./certs-data:/var/lib/letsencrypt
+    ports:
+      - "80:80"
+      - "443:443"
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./certs:/etc/letsencrypt
+      - ./certs-data:/var/lib/letsencrypt
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
