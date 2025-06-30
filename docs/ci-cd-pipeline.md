@@ -1,3 +1,5 @@
+[← Back to Main README](../README.md)
+
 # Jenkins CI/CD Pipeline
 
 This document explains how the Jenkins pipeline deploys the Zammad stack to a Hostinger VPS. It covers job creation, GitHub webhook configuration, credential mapping, stage explanations, and basic troubleshooting.
@@ -29,15 +31,15 @@ This is what allows Jenkins to start the pipeline whenever changes are pushed to
 
 The following Jenkins credentials are referenced in the pipeline and should be created from **Manage Jenkins → Credentials**:
 
-| Jenkins ID                              | Usage                                  |
-|-----------------------------------------|----------------------------------------|
-| `github-credentials`                    | SSH key used to pull the repository    |
-| `dockerhub-credentials`                 | Docker Hub login for pushing images    |
-| `docker-registry`                       | Docker Hub namespace/registry          |
-| `ssh-remote-server-hostinger-deploy`    | Private key for remote VPS             |
-| `remote-hostinger-deploy-ip`            | IP address of the Hostinger server     |
+| Jenkins ID                              | Usage       |
+|-----------------------------------------|-------------|
+| `github-credentials`                    | SSH key used to pull the repository |
+| `dockerhub-credentials`                 | Docker Hub login for pushing images |
+| `docker-registry`                       | Docker Hub namespace/registry |
+| `ssh-remote-server-hostinger-deploy`    | Private key for remote VPS |
+| `remote-hostinger-deploy-ip`            | IP address of the Hostinger server |
 | `remote-hostinger-domain`               | Domain name used for production deployment of Zammad |
-| `remote-user`                           | Remote Linux user (usually `root`)     |
+| `remote-user`                           | Remote Linux user (usually `root`) |
 
 ## 4. Jenkinsfile Stages
 
@@ -79,5 +81,5 @@ A successful run looks similar to:
 - The build stage only runs if a `services/` directory with Dockerfiles exists. If no custom services are needed you will only see pull and deploy steps.
 
 ---
-
-This pipeline provides an end‑to‑end automation flow: commit code → GitHub push → Jenkins build → Docker Hub push → Hostinger deployment. Edit the `Jenkinsfile` or `deploy-script.sh` to further customize the process.
+🔗 Back to [Main README](../README.md)  
+📚 See also: [Deployment](deployment.md) | [Certbot](certbot.md) | [Secrets](secrets.md)

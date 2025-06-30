@@ -1,3 +1,5 @@
+[← Back to Main README](../README.md)
+
 # Troubleshooting
 
 Below are common issues encountered when deploying the stack.
@@ -13,3 +15,7 @@ Below are common issues encountered when deploying the stack.
 ## Database connection errors
 - Verify the `postgres` container is running and reachable.
 - Confirm credentials in `.env` match the database environment variables.
+
+---
+🔗 Back to [Main README](../README.md)  
+📚 See also: [First Run Checks](first-run-checks.md) | [Deployment](deployment.md)

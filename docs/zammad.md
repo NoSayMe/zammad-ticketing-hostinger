@@ -1,3 +1,5 @@
+[← Back to Main README](../README.md)
+
 # Zammad Service
 
 Zammad provides the ticketing UI and API. The container is built from `services/zammad/Dockerfile` and depends on the `postgres` and `elasticsearch` services.
@@ -22,3 +24,7 @@ If the service fails to start:
 - Check connectivity to the database and elasticsearch containers.
 - Review logs with `docker logs zammad`.
 - Ensure permissions on the `zammad_data` volume allow write access.
+
+---
+🔗 Back to [Main README](../README.md)  
+📚 See also: [Deployment](deployment.md) | [First Run Checks](first-run-checks.md)

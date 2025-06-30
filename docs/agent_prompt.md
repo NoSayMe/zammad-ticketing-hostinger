@@ -1,7 +1,8 @@
+[← Back to Main README](../README.md)
+
 You are contributing to an open-source project designed to create a secure, modular, and easy-to-deploy ticketing and automation platform based on Zammad and Docker. This project is being actively built to serve small to mid-sized organizations and educational purposes.
 
-⚠️ Above all, this project is **documentation-first**.  
-Every feature or service must be accompanied by clear, human-readable documentation that explains:
+⚠️ Above all, this project is **documentation-first**. Every feature or service must be accompanied by clear, human-readable documentation that explains:
 - What it does
 - How to install/deploy it
 - How to verify it works
@@ -32,23 +33,22 @@ This includes Markdown-based files in `/docs`, and optionally a `/wiki` containe
 
 You are responsible for creating, containerizing, and documenting the following:
 
-| Component        | Description                                                   |
-|------------------|---------------------------------------------------------------|
-| `zammad`         | Main ticketing system                                         |
-| `postgresql`     | Relational database backend for Zammad                        |
-| `elasticsearch`  | Search indexing backend                                       |
-| `nginx`          | TLS termination and reverse proxy                             |
-| `certbot`        | HTTPS certificate issuance and renewal                        |
-| `homepage`       | Simple static `/` HTML landing page with links to tools       |
-| `jenkins`        | CI/CD deployment automation                                   |
-| `docs/`          | Markdown documentation for each area                          |
+| Component        | Description   |
+|------------------|--------------|
+| `zammad`         | Main ticketing system   |
+| `postgresql`     | Relational database backend for Zammad   |
+| `elasticsearch`  | Search indexing backend   |
+| `nginx`          | TLS termination and reverse proxy   |
+| `certbot`        | HTTPS certificate issuance and renewal   |
+| `homepage`       | Simple static `/` HTML landing page with links to tools   |
+| `jenkins`        | CI/CD deployment automation   |
+| `docs/`          | Markdown documentation for each area   |
 
 ---
 
 ## 🔁 Pipeline & Credentials
 
 The project is deployed using a **Jenkins-based CI/CD pipeline**, configured to:
-
 - Pull from GitHub via webhook (`main` branch)
 - Build Docker images
 - Push to DockerHub
@@ -62,7 +62,6 @@ All sensitive values (IP, SSH key, domain, registry, SMTP) are passed via **Jenk
 ## 📚 Documentation Requirements
 
 For every deployed or integrated component, you must:
-
 - Create a dedicated `.md` file under `docs/`
 - Clearly explain:
   - What the service/component does
@@ -88,7 +87,6 @@ This may use:
 ## ⚙️ Service Integrity is Mandatory
 
 ✅ Every service must include:
-
 - Persistent volume definition and mounting
 - Health check and troubleshooting steps in docs
 - Instructions for restarting or reconfiguring
@@ -99,7 +97,6 @@ This may use:
 ## ✅ Deliverables Checklist for Each Service
 
 For each new component (Zammad, NGINX, Certbot, etc.), the following must be delivered:
-
 - [ ] `services/<name>/Dockerfile`
 - [ ] `docker-compose.yaml` service definition
 - [ ] Mounted volumes defined and documented
@@ -131,7 +128,7 @@ For each new component (Zammad, NGINX, Certbot, etc.), the following must be del
 3. **Documentation Format** – every guide should include the block below to remind contributors that secrets are managed by Jenkins:
 
 ```
-> **⚠️ Sensitive Keys**  
+> **⚠️ Sensitive Keys**
 > All required keys and secrets for this integration are injected securely via Jenkins and are not stored in this repository.
 ```
 
@@ -161,3 +158,7 @@ Work in the following order:
 ---
 
 Continue with the next step by checking the `/docs` directory and creating/expanding a service if it’s not complete.
+
+---
+🔗 Back to [Main README](../README.md)  
+📚 See also: [Deployment](deployment.md) | [CI/CD](ci-cd-pipeline.md)

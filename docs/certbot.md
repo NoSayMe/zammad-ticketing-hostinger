@@ -1,8 +1,10 @@
+[← Back to Main README](../README.md)
+
 # NGINX and Certbot Integration
 
 This guide describes how the project uses [Certbot](https://certbot.eff.org/) together with NGINX to obtain and renew free TLS certificates from Let's Encrypt.
 
-> **⚠️ Sensitive Keys**  
+> **⚠️ Sensitive Keys**
 > All required keys and secrets for this integration are injected securely via Jenkins and are not stored in this repository.
 
 ## Overview
@@ -87,10 +89,10 @@ Alternatively your Jenkins pipeline can run `docker exec certbot certbot renew` 
 
 Jenkins only stores the domain and email used for Certbot. The certificate files remain solely in the Docker volume.
 
-| Secret Name                | Purpose                                                 |
-|----------------------------|---------------------------------------------------------|
-| `remote-hostinger-domain`  | Domain pointed to the VPS                               |
-| `certbot-email`            | Email address for Let's Encrypt registration            |
+| Secret Name                | Purpose       |
+|----------------------------|---------------|
+| `remote-hostinger-domain`  | Domain pointed to the VPS       |
+| `certbot-email`            | Email address for Let's Encrypt registration       |
 
 These secrets are injected into `.env` or `docker-compose.yaml` during the pipeline so the services know which domain to use.
 
@@ -125,7 +127,7 @@ ssl_certificate /etc/letsencrypt/live/${REMOTE_DOMAIN}/fullchain.pem;
 ssl_certificate_key /etc/letsencrypt/live/${REMOTE_DOMAIN}/privkey.pem;
 ```
 
-The full NGINX configuration is stored in [`services/nginx/nginx.conf.template`](../services/nginx/nginx.conf.template) and mounts both Certbot volumes so these paths are available inside the container.
+The full NGINX configuration is stored in [`services/nginx/nginx.conf.template`](../services/nginx/nginx.conf.template) and mounts both Certbot volumes so these paths are available inside the container. See the [Deployment guide](deployment.md) for how the container is started.
 
 ## Troubleshooting
 
@@ -143,3 +145,7 @@ The full NGINX configuration is stored in [`services/nginx/nginx.conf.template`]
 - [Certbot Documentation](https://eff-certbot.readthedocs.io/en/stable/)
 - [`docker-compose.yaml`](../docker-compose.yaml)
 - [`services/nginx/nginx.conf.template`](../services/nginx/nginx.conf.template)
+
+---
+🔗 Back to [Main README](../README.md)  
+📚 See also: [Deployment](deployment.md) | [CI/CD](ci-cd-pipeline.md) | [Secrets](secrets.md)
