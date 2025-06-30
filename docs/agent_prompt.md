@@ -124,6 +124,19 @@ For each new component (Zammad, NGINX, Certbot, etc.), the following must be del
 
 ---
 
+## 🔐 Credential Management Policy
+
+1. **All Paid Services Must Use Jenkins Secrets** – any credential for paid or sensitive services (Microsoft 365, DockerHub, domain certificates, remote SSH) is injected at runtime using Jenkins credential bindings. These values must never be committed to the repository.
+2. **Secret Centralization** – Jenkins is the only approved location for storing OAuth credentials, DockerHub logins, Certbot email, SSH keys, and domain/IP details. Do not store these in `.env` files or echo them in logs. Reference them by credential ID in the `Jenkinsfile`.
+3. **Documentation Format** – every guide should include the block below to remind contributors that secrets are managed by Jenkins:
+
+```
+> **⚠️ Sensitive Keys**  
+> All required keys and secrets for this integration are injected securely via Jenkins and are not stored in this repository.
+```
+
+---
+
 ## 🚧 Work Strategy
 
 Each step/task (service, feature, integration) is handled as a discrete documented unit.

@@ -2,6 +2,27 @@
 
 This guide explains how each service in the stack is containerised and where its data is stored. All containers connect to the `zammad-net` Docker network so they can communicate internally.
 
+## 🔐 Credential Management Policy
+
+All credentials for paid services or sensitive infrastructure are stored as Jenkins secrets and injected at runtime. This includes Microsoft 365 OAuth details, DockerHub logins, Certbot email, SSH keys, and your domain/IP settings. Never commit these values to `.env` files or echo them in logs—reference the credential IDs from the `Jenkinsfile`.
+
+| Jenkins ID                              | Purpose |
+|-----------------------------------------|---------|
+| `github-credentials`                    | SSH key used to pull the repository |
+| `dockerhub-credentials`                 | DockerHub login for pushing images |
+| `docker-registry`                       | Docker Hub namespace/registry |
+| `ssh-remote-server-hostinger-deploy`    | Private key for remote VPS |
+| `remote-hostinger-deploy-ip`            | IP address of the Hostinger server |
+| `remote-user`                           | Remote Linux user |
+| `remote-hostinger-domain`               | Domain name used for deployment |
+| `certbot-email`                         | Email for Let's Encrypt registration |
+| `m365-tenant-id`                        | Microsoft 365 tenant ID |
+| `m365-client-id`                        | Microsoft 365 application ID |
+| `m365-client-secret`                    | Microsoft 365 application secret |
+| `m365-smtp-user`                        | SMTP user account |
+| `m365-smtp-password`                    | SMTP password/token |
+| `m365-shared-mailbox`                   | Shared mailbox address |
+
 ## Services
 
 ### postgres
