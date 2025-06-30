@@ -1,56 +1,79 @@
 version: '3.9'
 
+networks:
+  zammad-net:
+
+volumes:
+  zammad_data:
+  postgres_data:
+  elastic_data:
+  certbot_conf:
+  certbot_www:
+
 services:
-  postgres:
-    image: postgres:15-alpine
+  postgresql:
+    build: ./services/postgresql
+    image: ${DOCKER_REGISTRY}/postgresql:latest
     restart: always
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - ./data/postgres:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - zammad-net
 
   elasticsearch:
-    image: elasticsearch:7.17.12
+    build: ./services/elasticsearch
+    image: ${DOCKER_REGISTRY}/elasticsearch:latest
     restart: always
     environment:
       discovery.type: single-node
       ES_JAVA_OPTS: ${ES_JAVA_OPTS}
     volumes:
-      - ./data/elasticsearch:/usr/share/elasticsearch/data
+      - elastic_data:/usr/share/elasticsearch/data
+    networks:
+      - zammad-net
 
   zammad:
-    image: zammad/zammad:latest
+    build: ./services/zammad
+    image: ${DOCKER_REGISTRY}/zammad:latest
     restart: always
     depends_on:
-      - postgres
+      - postgresql
       - elasticsearch
     environment:
-      - POSTGRESQL_HOST=postgres
-      - ELASTICSEARCH_HOST=elasticsearch
-      - ZAMMAD_RAILS_TRUSTED_PROXIES=0.0.0.0/0
+      POSTGRESQL_HOST: postgresql
+      ELASTICSEARCH_HOST: elasticsearch
+      ZAMMAD_RAILS_TRUSTED_PROXIES: 0.0.0.0/0
     env_file:
       - .env
     volumes:
-      - ./data/zammad:/opt/zammad
+      - zammad_data:/opt/zammad
+    networks:
+      - zammad-net
 
   nginx:
-    image: nginx:alpine
+    build: ./services/nginx
+    image: ${DOCKER_REGISTRY}/nginx:latest
     depends_on:
       - zammad
     volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./certs:/etc/letsencrypt
-      - ./certs-data:/var/lib/letsencrypt
+      - certbot_conf:/etc/letsencrypt
+      - certbot_www:/var/www/certbot
     ports:
       - "80:80"
       - "443:443"
+    networks:
+      - zammad-net
 
   certbot:
-    image: certbot/certbot
+    build: ./services/certbot
+    image: ${DOCKER_REGISTRY}/certbot:latest
     volumes:
-      - ./certs:/etc/letsencrypt
-      - ./certs-data:/var/lib/letsencrypt
-      - ./nginx/conf.d:/etc/nginx/conf.d
+      - certbot_conf:/etc/letsencrypt
+      - certbot_www:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    networks:
+      - zammad-net
