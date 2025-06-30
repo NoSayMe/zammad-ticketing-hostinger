@@ -2,6 +2,15 @@
 
 Welcome! 👋
 
+## Table of Contents
+- [Project Vision](#-project-vision)
+- [Goals](#-goals)
+- [Technology Stack](#-technology-stack)
+- [Learning Together](#-learning-together)
+- [Next Steps & Contribution](#-next-steps--contribution)
+- [Documentation](#-documentation)
+- [Thank You](#-thank-you)
+
 This repository represents my first step into the world of open-source collaboration, designed specifically to create a simple, secure, and easy-to-deploy ticketing system based on the open-source tool **Zammad**, hosted on a cost-effective VPS provider (**Hostinger**), and seamlessly integrated with **Microsoft 365**.
 
 ## 🎯 Project Vision
@@ -48,6 +57,15 @@ Whether you're a seasoned developer, an enthusiastic learner, or simply passiona
 * Enhance and test Microsoft 365 integration features.
 
 Feel free to open issues, suggest features, submit pull requests, or simply share your ideas!
+
+## 📖 Documentation
+
+All additional guides are stored in the [`docs/`](docs/) directory:
+
+- **[deployment.md](docs/deployment.md)** – step-by-step instructions to run the Zammad stack with Docker Compose.
+- **[ci-cd-pipeline.md](docs/ci-cd-pipeline.md)** – explains the Jenkins pipeline used for automated deployments.
+
+These documents will grow alongside the project as more features (like Microsoft 365 integration or n8n workflows) are added.
 
 ## 🙏 Thank You!
 
