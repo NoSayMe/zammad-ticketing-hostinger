@@ -1,2 +1,42 @@
 # Deployment Guide – Zammad Docker Stack
-_This document describes how to deploy and manage the Zammad stack using Docker Compose._
+
+This guide explains how each service in the stack is containerised and where its data is stored. All containers connect to the `zammad-net` Docker network so they can communicate internally.
+
+## Services
+
+### postgresql
+Zammad's database backend. Built from `services/postgresql/Dockerfile` and configured via environment variables in `.env`. Persistent data is stored in the named volume `postgres_data` mounted at `/var/lib/postgresql/data`.
+
+### elasticsearch
+Provides search capabilities for Zammad. Built from `services/elasticsearch/Dockerfile`. The index is kept in `elastic_data` mounted at `/usr/share/elasticsearch/data`.
+
+### zammad
+The main application container built from `services/zammad/Dockerfile`. It depends on `postgresql` and `elasticsearch`. Application files and attachments are stored in `zammad_data` mounted at `/opt/zammad`.
+
+### nginx
+Acts as the reverse proxy and exposes ports 80 and 443. It is built from `services/nginx/Dockerfile` which copies the configuration in `services/nginx/conf.d`. Certificates and ACME challenge files are shared with the `certbot` container via the volumes `certbot_conf` and `certbot_www`.
+
+### certbot
+Handles Let's Encrypt certificate issuance and renewal. Built from `services/certbot/Dockerfile` and shares the same volumes as NGINX for certificate storage.
+
+## Persistent Volumes
+
+```yaml
+volumes:
+  zammad_data:
+  postgres_data:
+  elastic_data:
+  certbot_conf:
+  certbot_www:
+```
+
+These volumes are defined in `docker-compose.yaml` and ensure data is retained across container restarts or upgrades.
+
+## Running the stack
+
+1. Copy `.env.example` to `.env` and adjust values to suit your environment.
+2. Build and start the containers:
+   ```bash
+   docker-compose up -d
+   ```
+3. The application will be available via the domain configured in your DNS pointing to the server.
