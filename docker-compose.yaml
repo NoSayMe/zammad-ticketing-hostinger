@@ -61,6 +61,7 @@ services:
     depends_on:
       - zammad
     volumes:
+      - ./services/nginx/html:/usr/share/nginx/html
       - certbot_conf:/etc/letsencrypt
       - certbot_www:/var/www/certbot
     ports:

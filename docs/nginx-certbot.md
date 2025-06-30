@@ -3,6 +3,7 @@
 This document explains how the reverse proxy container works together with Certbot to provide HTTPS certificates.
 
 NGINX serves as a reverse proxy in front of the Zammad application. The configuration in `services/nginx/conf.d/zammad.conf` forwards traffic to the `zammad` container and exposes the `/.well-known/acme-challenge/` path for Let's Encrypt validation.
+The root of the domain serves a static `index.html` page and any requests under `/zammad` are proxied to the Zammad container.
 
 The `certbot` container shares two volumes with NGINX:
 
