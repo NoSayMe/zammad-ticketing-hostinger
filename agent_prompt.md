@@ -1,93 +1,150 @@
-You are a DevOps & backend automation agent working in a public open-source GitHub repository.
-Your task is to build, configure, and maintain a secure, modular, and CI/CD-enabled deployment of the open-source **Zammad ticketing system**, hosted on a **remote Hostinger VPS** with **SSH root access**, and integrated with **Microsoft 365** services.
+You are contributing to an open-source project designed to create a secure, modular, and easy-to-deploy ticketing and automation platform based on Zammad and Docker. This project is being actively built to serve small to mid-sized organizations and educational purposes.
 
-## 🌍 Project Context
-This is part of a public effort to build an **easy-to-deploy**, **cost-effective**, and **extensible** open-source solution for small and mid-sized businesses. The system is deployed using an **automated Jenkins pipeline** and is designed to support future features like **n8n workflows**, **document automation**, and **AI agent integration**.
+⚠️ Above all, this project is **documentation-first**.  
+Every feature or service must be accompanied by clear, human-readable documentation that explains:
+- What it does
+- How to install/deploy it
+- How to verify it works
+- How to troubleshoot it
+- (Optionally) How it works internally
 
----
-
-## 🎯 Objective
-Deploy Zammad on a remote VPS (Hostinger) using:
-- Docker Compose stack (including Certbot + NGINX)
-- Jenkins-based CI/CD pipeline
-- Microsoft 365 OAuth2 integration (email, auth)
-- Support for custom organizational branding
+This includes Markdown-based files in `/docs`, and optionally a `/wiki` containerized page for UI-based browsing (to be defined).
 
 ---
 
-## 🔐 Jenkins Global Credentials (used in pipeline)
+## 🎯 Project Vision
 
-These are not stored in the repo but must be referenced in the pipeline using Jenkins credential bindings:
-
-- `github-credentials`: SSH key for GitHub access (ID: `<Github account>`)
-- `dockerhub-credentials`: DockerHub login (`<username>/****`)
-- `ssh-remote-server-hostinger-deploy`: Root SSH key to remote VPS
-- `remote-hostinger-deploy-ip`: Remote server IP
-- `remote-user`: Remote Linux user
-- `docker-registry`: Docker Registry username
-
----
-
-## 🛠️ Functional Requirements
-
-### 1. Docker-Based Stack (CI/CD Deployment)
-- Extend `docker-compose.yaml` to include:
-  - `zammad`, `postgresql`, `elasticsearch`, `nginx`, `certbot`
-- Use `.env` for secrets and config (e.g., email, domain, OAuth)
-- Set up persistent volumes for all data
-- ✅ `docs/deployment.md`
-
-### 2. HTTPS with Certbot + NGINX
-- Fully containerized Certbot/NGINX solution
-- Auto-renew certs using shared volumes or cronjob
-- ✅ `docs/nginx-certbot.md`
-
-### 3. Microsoft 365 Integration
-- Email: Shared mailbox for intake (OAuth2)
-- SMTP: Send via Microsoft 365 (OAuth2)
-- ✅ `docs/email-integration.md`
-
-### 4. Authentication (LDAP / Entra ID)
-- Use Microsoft Entra ID via OAuth2/SAML
-- Fallback LDAP config if needed
-- ✅ `docs/authentication.md`
-
-### 5. System Setup
-- Use CLI for first admin (`zammad run rake zammad:make_admin`)
-- Set up groups, notifications, SLAs
-- ✅ `docs/system-setup.md`
-
-### 6. MS Teams / Power Automate
-- Add webhooks to notify ticket events
-- Provide sample Power Automate flows
-- ✅ `docs/integrations.md`
-
-### 7. SharePoint (Optional)
-- Allow saving attachments via Power Automate
-- ✅ `docs/integrations.md`
-
-### 8. CI/CD Maintenance
-- Continue using `Jenkinsfile` and `deploy-script.sh`
-- Jenkins must:
-  - Pull latest Zammad images
-  - Run DB migrations
-  - Restart services
-  - Validate HTTPS
-- ✅ `docs/maintenance.md`
+- A **secure**, **cost-effective**, and **scalable** ticketing solution
+- Fully deployable via **Jenkins CI/CD pipeline** to a remote **Hostinger VPS**
+- All components run in **Docker containers** with isolated roles
+- Clean and modular structure: one service = one Dockerfile
+- Seamless integration with **Microsoft 365**, **NGINX + Certbot**, and more
+- Emphasis on **education**, **documentation**, and **community usability**
+- Clear roadmap for future integrations:
+  - n8n (workflow automation)
+  - AI Agents (via MCP)
+  - Structured document handling (PDF/Office parsing)
+  - Web-based admin panel (/wiki or /dashboard)
 
 ---
 
-## 🎨 Organizational Branding
-Support customization for internal use or external-facing clients:
-- Logo and favicon overrides
-- Custom email templates
-- Optional login message
-- ✅ `docs/branding.md`
+## 🛠️ Core Components
+
+You are responsible for creating, containerizing, and documenting the following:
+
+| Component        | Description                                                   |
+|------------------|---------------------------------------------------------------|
+| `zammad`         | Main ticketing system                                         |
+| `postgresql`     | Relational database backend for Zammad                        |
+| `elasticsearch`  | Search indexing backend                                       |
+| `nginx`          | TLS termination and reverse proxy                             |
+| `certbot`        | HTTPS certificate issuance and renewal                        |
+| `homepage`       | Simple static `/` HTML landing page with links to tools       |
+| `jenkins`        | CI/CD deployment automation                                   |
+| `docs/`          | Markdown documentation for each area                          |
 
 ---
 
-## 📏 Constraints
-- Do not modify Zammad’s core application code
-- Use only environment variables, volumes, and REST API for customization
-- Secure all credentials via `.env` + Jenkins credentials
-- Use best practices for log security and deployment hygiene
+## 🔁 Pipeline & Credentials
+
+The project is deployed using a **Jenkins-based CI/CD pipeline**, configured to:
+
+- Pull from GitHub via webhook (`main` branch)
+- Build Docker images
+- Push to DockerHub
+- SSH into remote VPS
+- Run `deploy-script.sh` to bring up the stack
+
+All sensitive values (IP, SSH key, domain, registry, SMTP) are passed via **Jenkins credential bindings**.
+
+---
+
+## 📚 Documentation Requirements
+
+For every deployed or integrated component, you must:
+
+- Create a dedicated `.md` file under `docs/`
+- Clearly explain:
+  - What the service/component does
+  - How it’s deployed (including Docker, volumes, ports)
+  - What to check to confirm it’s working properly
+  - What to try if it fails (logs, container health, restart tips)
+  - External links to docs, if relevant
+- Use real examples, and plain English
+- Prefer visual verification (e.g., accessible URL) and CLI checks (`docker ps`, `docker logs`, etc.)
+
+---
+
+## 🌐 (Optional) Containerized Wiki
+
+We plan to host a `/wiki` or `/docs` page accessible via the domain, rendered from the Markdown files in `docs/`.
+
+This may use:
+- `docsify`, `mkdocs`, `jekyll`, or other static site generators
+- Containerized UI hosted alongside other services
+
+---
+
+## ⚙️ Service Integrity is Mandatory
+
+✅ Every service must include:
+
+- Persistent volume definition and mounting
+- Health check and troubleshooting steps in docs
+- Instructions for restarting or reconfiguring
+- Proper reverse proxy config if accessed over web
+
+---
+
+## ✅ Deliverables Checklist for Each Service
+
+For each new component (Zammad, NGINX, Certbot, etc.), the following must be delivered:
+
+- [ ] `services/<name>/Dockerfile`
+- [ ] `docker-compose.yaml` service definition
+- [ ] Mounted volumes defined and documented
+- [ ] Any configs (e.g., nginx.conf) stored in `services/<name>/`
+- [ ] Markdown file under `/docs/<name>.md`
+- [ ] Updated homepage `/` index.html with relevant link (if applicable)
+- [ ] Working in end-to-end CI/CD deployment
+
+---
+
+## 🔐 Credentials (in Jenkins)
+
+| ID                          | Purpose                         |
+|-----------------------------|---------------------------------|
+| `github-credentials`        | SSH access to repo              |
+| `dockerhub-credentials`     | DockerHub push login            |
+| `docker-registry`           | Registry namespace (`nosayme`) |
+| `ssh-remote-server-hostinger-deploy` | Root SSH key for VPS |
+| `remote-hostinger-deploy-ip`| IP of VPS                       |
+| `remote-user`               | User account on VPS             |
+| `remote-hostinger-domain`   | Domain pointed to VPS           |
+
+---
+
+## 🚧 Work Strategy
+
+Each step/task (service, feature, integration) is handled as a discrete documented unit.
+
+Work in the following order:
+1. Implement functionality
+2. Verify service is functional (in container and deployed)
+3. Document setup + verification + troubleshooting
+4. Commit in small, self-contained steps
+
+---
+
+## ✅ Current Status
+
+- ✅ Jenkins CI/CD pipeline is working
+- ✅ Domain name and IP set up as credentials
+- ✅ NGINX + `/` homepage serve is functional
+- 🔧 Zammad service being containerized
+- 🔧 Certbot auto-renew still pending verification
+- 🔧 Proper documentation needed for each service
+
+---
+
+Continue with the next step by checking the `/docs` directory and creating/expanding a service if it’s not complete.
