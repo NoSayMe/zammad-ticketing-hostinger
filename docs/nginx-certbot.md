@@ -2,6 +2,9 @@
 
 This guide describes how the project uses [Certbot](https://certbot.eff.org/) together with NGINX to obtain and renew free TLS certificates from Let's Encrypt.
 
+> **⚠️ Sensitive Keys**  
+> All required keys and secrets for this integration are injected securely via Jenkins and are not stored in this repository.
+
 ## Overview
 
 Certbot automates the process of requesting and renewing certificates. We run it in a Docker container so it can share volumes with our NGINX reverse proxy. The container image is built from [`services/certbot/Dockerfile`](../services/certbot/Dockerfile), which extends the official `certbot/certbot` image. The **webroot** challenge method is used because it only requires serving files from a known directory, making it simple and reliable in a containerized environment.
