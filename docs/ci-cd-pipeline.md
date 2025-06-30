@@ -1,54 +1,82 @@
-# CI/CD Pipeline Overview
+# Jenkins CI/CD Pipeline
 
-This document outlines the proposed Jenkins-based CI/CD workflow for deploying the Zammad ticketing system to a Hostinger VPS. It expands on the existing example pipeline (`Jenkinsfile`, `deploy-script.sh`, and `docker-compose.yaml`) and reuses predefined Jenkins credentials.
+This document explains how the Jenkins pipeline deploys the Zammad stack to a Hostinger VPS. It covers job creation, GitHub webhook configuration, credential mapping, stage explanations, and basic troubleshooting.
 
-## Pipeline Stages
+## 1. Jenkins Pipeline Job Setup
 
-1. **Checkout**
-   - Uses `github-credentials` to securely pull the repository via SSH.
-2. **Docker Build**
-   - Build custom images if needed (e.g., organization-specific branding).
-   - Tag images using the value stored in the `docker-registry` credential.
-3. **Docker Push**
-   - Authenticate to Docker Hub with `dockerhub-credentials` and push the freshly built images to the registry namespace.
-4. **Remote Deploy**
-   - SSH into the Hostinger VPS with `ssh-remote-server-hostinger-deploy` using the host from `remote-hostinger-deploy-ip` and user provided by `remote-user`.
-   - Run `deploy-script.sh`, passing `DOCKER_REGISTRY` and `REMOTE_HOST` so the script can pull the latest images and run `docker-compose` on the server.
-5. **Post‑Deploy**
-   - Optionally run database migrations and verify the service is healthy (e.g., `docker-compose exec zammad rails r ...`).
+1. In Jenkins select **Create New Item** and choose **Pipeline**. Name it `zammad-hostinger`.
+2. Under **Build Triggers** check **GitHub hook trigger for GITScm polling** so pushes from GitHub start the job automatically.
+3. In the **Pipeline** section choose **Pipeline script from SCM** and configure:
+   - **SCM**: Git
+   - **Repository URL**: `https://github.com/NoSayMe/zammad-ticketing-hostinger.git`
+   - **Credentials**: select the stored SSH key credential `github-credentials`
+   - **Branch Specifier**: `*/main`
+   - **Script Path**: `Jenkinsfile`
+4. Save the job. Jenkins is now ready to run when webhooks arrive or when manually triggered.
 
-## Jenkins Credentials
+## 2. GitHub Webhook
 
-| ID                                   | Purpose                                    |
-|--------------------------------------|--------------------------------------------|
-| `github-credentials`                 | SSH key used for repo checkout             |
-| `dockerhub-credentials`              | Docker Hub username/password               |
-| `docker-registry`                    | Docker registry namespace (e.g., `nosayme`)|
-| `ssh-remote-server-hostinger-deploy` | Root SSH key to access VPS                 |
-| `remote-hostinger-deploy-ip`         | Hostinger server IP address                |
-| `remote-user`                        | Linux user for remote Docker commands      |
+From the GitHub repository settings go to **Webhooks** and create a new webhook with:
 
-## Remote Deployment Architecture
+- **Payload URL**: `http://<jenkins-ip>:<port>/github-webhook/`
+- **Content type**: `application/x-www-form-urlencoded`
+- **Events**: choose **Just the push event**
+- **Active**: enabled
 
-1. Jenkins pulls the repository and builds Docker images.
-2. Images are pushed to Docker Hub under the namespace defined by `docker-registry`.
-3. Jenkins connects to the Hostinger VPS over SSH and executes `deploy-script.sh`.
-4. The script sets up directories, installs Docker/Compose if missing, then pulls and runs the stack defined in `docker-compose.yaml`.
+This is what allows Jenkins to start the pipeline whenever changes are pushed to `main`.
+
+## 3. Credential Mapping
+
+The following Jenkins credentials are referenced in the pipeline and should be created from **Manage Jenkins → Credentials**:
+
+| Jenkins ID                              | Usage                                  |
+|-----------------------------------------|----------------------------------------|
+| `github-credentials`                    | SSH key used to pull the repository    |
+| `dockerhub-credentials`                 | Docker Hub login for pushing images    |
+| `docker-registry`                       | Docker Hub namespace/registry          |
+| `ssh-remote-server-hostinger-deploy`    | Private key for remote VPS             |
+| `remote-hostinger-deploy-ip`            | IP address of the Hostinger server     |
+| `remote-user`                           | Remote Linux user (usually `root`)     |
+
+## 4. Jenkinsfile Stages
+
+The `Jenkinsfile` in the repository performs these steps:
+
+1. **Checkout** – `checkout scm` fetches the latest commit.
+2. **Build Images** – Optional stage that looks for a `services/` directory and builds any Dockerfiles it finds. Because the project currently only uses the official Zammad image, this stage is skipped until custom services are added.
+3. **Push to DockerHub** – If images were built, they are pushed using the credentials defined by `docker-registry` and `dockerhub-credentials`.
+4. **Deploy to Remote Server** – Copies `docker-compose.yaml`, `.env`, and `deploy-script.sh` to `/opt/zammad` on the VPS and runs the script. The script installs Docker/Compose if needed, pulls the latest Zammad stack, and starts the services with `docker-compose up -d`.
+5. **Post Actions** – Local Docker images are pruned to keep the Jenkins host clean.
+
+## 5. Example Output
+
+A successful run looks similar to:
 
 ```
-GitHub → Jenkins → Docker Hub → Hostinger VPS
+📥 Checking out repository...
+🏗️ Building Docker images (if any)...
+📤 Pushing Docker images (if any)...
+🚀 Deploying to Hostinger VPS...
+[Remote] docker-compose up -d
+📊 Container status shown
+✅ Deployment complete
 ```
 
-## Running or Modifying the Pipeline
+## 6. Troubleshooting
 
-- Jenkins automatically triggers on repository updates (or manual run via UI).
-- To modify pipeline logic, edit the `Jenkinsfile` and commit changes.
-- Environment variables should be defined in `.env` (or `.env.example` as a template) and injected through Jenkins or the deploy script.
-- To re-run the pipeline for troubleshooting, trigger a new build in Jenkins.
+**Webhook not triggering**
+- Ensure the webhook URL is reachable from GitHub. Check Jenkins logs under **Manage Jenkins → System Log** for incoming hooks.
+- Verify the job is configured with the GitHub trigger and that your Jenkins URL is correct.
 
-## Rotating Docker Hub Credentials
+**Permission denied during SSH**
+- Confirm the credential `ssh-remote-server-hostinger-deploy` contains a valid private key and that the public key is in `~/.ssh/authorized_keys` on the VPS.
 
-1. Generate new Docker Hub credentials.
-2. Update the Jenkins credential named `dockerhub-credentials` with the new username and password.
-3. Rerun the pipeline to verify Docker authentication succeeds.
+**Docker push fails**
+- Check that the credentials `dockerhub-credentials` are correct and that the Jenkins server has outbound internet access.
 
+**Images not building**
+- The build stage only runs if a `services/` directory with Dockerfiles exists. If no custom services are needed you will only see pull and deploy steps.
+
+---
+
+This pipeline provides an end‑to‑end automation flow: commit code → GitHub push → Jenkins build → Docker Hub push → Hostinger deployment. Edit the `Jenkinsfile` or `deploy-script.sh` to further customize the process.
