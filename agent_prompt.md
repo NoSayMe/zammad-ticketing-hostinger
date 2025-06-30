@@ -15,18 +15,6 @@ Deploy Zammad on a remote VPS (Hostinger) using:
 
 ---
 
-## ⚠️ CI/CD Compatibility
-
-This project already includes a working Jenkins deployment pipeline using:
-- `Jenkinsfile`
-- `deploy-script.sh`
-- `docker-compose.yaml`
-
-✅ **Do not delete or break these files.**  
-They are fully integrated into a Jenkins server using credential bindings and remote SSH deployment.
-
----
-
 ## 🔐 Jenkins Global Credentials (used in pipeline)
 
 These are not stored in the repo but must be referenced in the pipeline using Jenkins credential bindings:
