@@ -1,3 +1,5 @@
+[← Back to Main README](../README.md)
+
 # Homepage
 
 The static landing page is served by the NGINX container. It resides at `services/nginx/html/index.html` and is copied into the image during the Docker build.
@@ -8,3 +10,7 @@ Links are provided to:
 - `/status` – placeholder for health checks
 
 Edit `index.html` and rebuild the `nginx` service to change the content.
+
+---
+🔗 Back to [Main README](../README.md)  
+📚 See also: [Branding](branding.md) | [Deployment](deployment.md)

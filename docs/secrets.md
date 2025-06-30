@@ -1,3 +1,5 @@
+[← Back to Main README](../README.md)
+
 # Jenkins Secrets Index
 
 The following credential IDs are referenced by the deployment pipeline. Values are stored only in Jenkins and never in this repository.
@@ -18,3 +20,7 @@ The following credential IDs are referenced by the deployment pipeline. Values a
 | `m365-smtp-user`                        | SMTP user account |
 | `m365-smtp-password`                    | SMTP password/token |
 | `m365-shared-mailbox`                   | Shared mailbox address |
+
+---
+🔗 Back to [Main README](../README.md)  
+📚 See also: [CI/CD](ci-cd-pipeline.md) | [Deployment](deployment.md)

@@ -6,6 +6,7 @@ Welcome! 👋
 - [Project Vision](#-project-vision)
 - [Goals](#-goals)
 - [Technology Stack](#-technology-stack)
+- [Quick Start](#-quick-start)
 - [Learning Together](#-learning-together)
 - [Next Steps & Contribution](#-next-steps--contribution)
 - [Documentation](#-documentation)
@@ -43,6 +44,20 @@ In the longer term, I'm enthusiastic about exploring integrations with **AI agen
 * **Structured Document Handling (Future integration):** Systematic processing and management of uploaded documents.
 * **AI Agents & MCP (Future integration):** Intelligent, dynamic workflow automation and customer interaction enhancements.
 
+## 🚀 Quick Start
+
+1. Clone this repository and enter the directory:
+   ```bash
+   git clone https://github.com/NoSayMe/zammad-ticketing-hostinger.git
+   cd zammad-ticketing-hostinger
+   ```
+2. Copy `.env.example` to `.env` and adjust the values for your environment.
+3. Start the stack locally:
+   ```bash
+   docker-compose up -d
+   ```
+4. Visit `http://localhost` to see the landing page. For production deployment follow the [Deployment guide](docs/deployment.md).
+
 ## 📚 Learning Together
 
 This project is not just about creating software—it's about learning, growing, and contributing together. I'm actively collaborating with freelance developers initially to set a solid foundation, guide structure, and ensure best practices.
@@ -56,15 +71,20 @@ Whether you're a seasoned developer, an enthusiastic learner, or simply passiona
 * Develop robust documentation for ease of use.
 * Enhance and test Microsoft 365 integration features.
 
-Feel free to open issues, suggest features, submit pull requests, or simply share your ideas!
+Contributions are welcome! Fork the repository, create a feature branch and open a pull request when you're ready. You can also open issues to discuss ideas or problems.
 
 ## 📖 Documentation
 
 All additional guides are stored in the [`docs/`](docs/) directory:
 
-- **[deployment.md](docs/deployment.md)** – step-by-step instructions to run the Zammad stack with Docker Compose.
-- **[ci-cd-pipeline.md](docs/ci-cd-pipeline.md)** – explains the Jenkins pipeline used for automated deployments.
-- **[nginx-certbot.md](docs/nginx-certbot.md)** – details the HTTPS setup using Certbot and NGINX.
+- **[deployment.md](docs/deployment.md)** – step-by-step Docker setup and environments.
+- **[ci-cd-pipeline.md](docs/ci-cd-pipeline.md)** – Jenkins and automation logic.
+- **[authentication.md](docs/authentication.md)** – LDAP, Entra ID, Microsoft login setup.
+- **[email-integration.md](docs/email-integration.md)** – Outlook, shared mailbox config.
+- **[branding.md](docs/branding.md)** – Customization and UI theming.
+- **[certbot.md](docs/certbot.md)** – HTTPS setup with Certbot.
+- **[secrets.md](docs/secrets.md)** – Overview of Jenkins credential IDs.
+- **[troubleshooting.md](docs/troubleshooting.md)** – Accessing logs, common errors.
 
 These documents will grow alongside the project as more features (like Microsoft 365 integration or n8n workflows) are added.
 

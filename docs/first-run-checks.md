@@ -1,3 +1,5 @@
+[← Back to Main README](../README.md)
+
 # First Run Checks & Troubleshooting Guide
 
 This guide helps you verify the stack after your first successful deployment and provides steps to debug common issues.
@@ -83,3 +85,6 @@ docker exec -it zammad bash
 zammad run rails c
 ```
 
+---
+🔗 Back to [Main README](../README.md)  
+📚 See also: [Troubleshooting](troubleshooting.md) | [Deployment](deployment.md)

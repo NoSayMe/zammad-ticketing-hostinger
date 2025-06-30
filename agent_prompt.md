@@ -73,6 +73,19 @@ For every deployed or integrated component, you must:
 - Use real examples, and plain English
 - Prefer visual verification (e.g., accessible URL) and CLI checks (`docker ps`, `docker logs`, etc.)
 
+## 📚 Documentation Standards
+
+- `README.md` acts as the hub and must link to every guide in `docs/`.
+- Every markdown file under `docs/` starts with a backlink to `README.md` and ends with a navigation footer:
+
+  ```markdown
+  ---
+  🔗 Back to [Main README](../README.md)  
+  📚 See also: [Deployment](deployment.md) | [CI/CD](ci-cd-pipeline.md) | [Secrets](secrets.md)
+  ```
+- Use relative links when referencing other docs.
+- Keep headers and terminology consistent (e.g., "remote VPS").
+
 ---
 
 ## 🌐 (Optional) Containerized Wiki
