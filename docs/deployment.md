@@ -43,3 +43,4 @@ These volumes are defined in `docker-compose.yaml` and ensure data is retained a
    ```
 3. The application will be available via the domain configured in your DNS pointing to the server.
    This value is injected as `ZAMMAD_FQDN` and referenced by the NGINX configuration for TLS generation.
+4. Visiting the root of your domain displays a simple welcome page with a link to `/zammad`.
