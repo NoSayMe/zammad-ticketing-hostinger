@@ -35,8 +35,11 @@ These volumes are defined in `docker-compose.yaml` and ensure data is retained a
 ## Running the stack
 
 1. Copy `.env.example` to `.env` and adjust values to suit your environment.
+   The `DOMAIN` entry will be replaced automatically during the Jenkins deployment
+   using the `remote-hostinger-domain` credential.
 2. Build and start the containers:
    ```bash
    docker-compose up -d
    ```
 3. The application will be available via the domain configured in your DNS pointing to the server.
+   This value is injected as `ZAMMAD_FQDN` and referenced by the NGINX configuration for TLS generation.

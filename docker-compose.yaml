@@ -47,6 +47,7 @@ services:
       POSTGRESQL_HOST: postgresql
       ELASTICSEARCH_HOST: elasticsearch
       ZAMMAD_RAILS_TRUSTED_PROXIES: 0.0.0.0/0
+      ZAMMAD_FQDN: ${REMOTE_DOMAIN}
     env_file:
       - .env
     volumes:
