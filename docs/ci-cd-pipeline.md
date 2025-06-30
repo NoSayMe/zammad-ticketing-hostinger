@@ -36,6 +36,7 @@ The following Jenkins credentials are referenced in the pipeline and should be c
 | `docker-registry`                       | Docker Hub namespace/registry          |
 | `ssh-remote-server-hostinger-deploy`    | Private key for remote VPS             |
 | `remote-hostinger-deploy-ip`            | IP address of the Hostinger server     |
+| `remote-hostinger-domain`               | Domain name used for production deployment of Zammad |
 | `remote-user`                           | Remote Linux user (usually `root`)     |
 
 ## 4. Jenkinsfile Stages

@@ -1,11 +1,12 @@
 #!/bin/bash
 set -euo pipefail
 
-# Usage: deploy-script.sh <docker_registry> <remote_ip>
+# Usage: deploy-script.sh <docker_registry> <remote_ip> <remote_domain>
 DOCKER_REGISTRY=${1:-""}
 REMOTE_HOST=${2:-"localhost"}
+REMOTE_DOMAIN=${3:-"localhost"}
 
-echo "🚀 Deploying Zammad stack (registry: $DOCKER_REGISTRY, host: $REMOTE_HOST)"
+echo "🚀 Deploying Zammad stack (registry: $DOCKER_REGISTRY, host: $REMOTE_HOST, domain: $REMOTE_DOMAIN)"
 
 # Install Docker if not present
 if ! command -v docker &>/dev/null; then
@@ -29,6 +30,15 @@ sudo chown -R "$USER:$USER" data certs certs-data nginx
 # Replace registry placeholder if present
 if grep -q "\${DOCKER_REGISTRY}" docker-compose.yaml 2>/dev/null; then
     sed -i "s|\${DOCKER_REGISTRY}|$DOCKER_REGISTRY|g" docker-compose.yaml
+fi
+
+# Replace domain placeholder if present
+if grep -q "\${REMOTE_DOMAIN}" docker-compose.yaml 2>/dev/null; then
+    sed -i "s|\${REMOTE_DOMAIN}|$REMOTE_DOMAIN|g" docker-compose.yaml
+fi
+
+if grep -q "\${REMOTE_DOMAIN}" .env 2>/dev/null; then
+    sed -i "s|\${REMOTE_DOMAIN}|$REMOTE_DOMAIN|g" .env
 fi
 
 # Pull and run containers
