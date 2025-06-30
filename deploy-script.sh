@@ -41,6 +41,28 @@ if grep -q "\${REMOTE_DOMAIN}" .env 2>/dev/null; then
     sed -i "s|\${REMOTE_DOMAIN}|$REMOTE_DOMAIN|g" .env
 fi
 
+# Extract admin email for Certbot
+ADMIN_EMAIL=$(grep '^ADMIN_EMAIL=' .env | cut -d '=' -f2)
+
+# Ensure certificate volumes exist
+docker volume create certbot_conf >/dev/null || true
+docker volume create certbot_www >/dev/null || true
+
+# Bootstrap certificate if it doesn't already exist
+CERT_PATH=$(docker volume inspect certbot_conf -f '{{ .Mountpoint }}')
+if [ ! -d "$CERT_PATH/live/$REMOTE_DOMAIN" ]; then
+    echo "🔐 Requesting initial certificate..."
+    docker run --rm \
+      -v certbot_conf:/etc/letsencrypt \
+      -v certbot_www:/var/www/certbot \
+      certbot/certbot certonly \
+      --webroot -w /var/www/certbot \
+      --email "$ADMIN_EMAIL" \
+      --agree-tos \
+      --no-eff-email \
+      -d "$REMOTE_DOMAIN"
+fi
+
 # Pull and run containers
 docker-compose pull
 docker-compose up -d

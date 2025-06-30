@@ -17,7 +17,7 @@ The main application container built from `services/zammad/Dockerfile`. It depen
 Acts as the reverse proxy and exposes ports 80 and 443. It is built from `services/nginx/Dockerfile` which copies the configuration in `services/nginx/conf.d`. Certificates and ACME challenge files are shared with the `certbot` container via the volumes `certbot_conf` and `certbot_www`.
 
 ### certbot
-Handles Let's Encrypt certificate issuance and renewal. Built from `services/certbot/Dockerfile` and shares the same volumes as NGINX for certificate storage.
+Handles Let's Encrypt certificate issuance and renewal. The container is built from [`services/certbot/Dockerfile`](../services/certbot/Dockerfile), which uses the official `certbot/certbot` image as its base. It shares the same volumes as NGINX for certificate storage.
 
 ## Persistent Volumes
 
