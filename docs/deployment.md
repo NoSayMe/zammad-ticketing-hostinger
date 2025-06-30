@@ -4,17 +4,17 @@ This guide explains how each service in the stack is containerised and where its
 
 ## Services
 
-### postgresql
-Zammad's database backend. Built from `services/postgresql/Dockerfile` and configured via environment variables in `.env`. Persistent data is stored in the named volume `postgres_data` mounted at `/var/lib/postgresql/data`.
+### postgres
+Zammad's database backend. Built from `services/postgres/Dockerfile` and configured via environment variables in `.env`. Persistent data is stored in the named volume `postgres_data` mounted at `/var/lib/postgresql/data`.
 
 ### elasticsearch
 Provides search capabilities for Zammad. Built from `services/elasticsearch/Dockerfile`. The index is kept in `elastic_data` mounted at `/usr/share/elasticsearch/data`.
 
 ### zammad
-The main application container built from `services/zammad/Dockerfile`. It depends on `postgresql` and `elasticsearch`. Application files and attachments are stored in `zammad_data` mounted at `/opt/zammad`.
+The main application container built from `services/zammad/Dockerfile`. It depends on `postgres` and `elasticsearch`. Application files and attachments are stored in `zammad_data` mounted at `/opt/zammad`.
 
 ### nginx
-Acts as the reverse proxy and exposes ports 80 and 443. It is built from `services/nginx/Dockerfile` which copies the configuration in `services/nginx/conf.d`. Certificates and ACME challenge files are shared with the `certbot` container via the volumes `certbot_conf` and `certbot_www`.
+Acts as the reverse proxy and exposes ports 80 and 443. It is built from `services/nginx/Dockerfile` which uses `nginx.conf.template` for its configuration. Certificates and ACME challenge files are shared with the `certbot` container via the volumes `certbot_conf` and `certbot_www`.
 
 ### certbot
 Handles Let's Encrypt certificate issuance and renewal. The container is built from [`services/certbot/Dockerfile`](../services/certbot/Dockerfile), which uses the official `certbot/certbot` image as its base. It shares the same volumes as NGINX for certificate storage.

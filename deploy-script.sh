@@ -23,9 +23,10 @@ if ! command -v docker-compose &>/dev/null; then
     sudo chmod +x /usr/local/bin/docker-compose
 fi
 
-# Create data directories
-sudo mkdir -p data/postgres data/elasticsearch data/zammad certs certs-data nginx/conf.d
-sudo chown -R "$USER:$USER" data certs certs-data nginx
+# Ensure named Docker volumes exist
+for volume in zammad_data postgres_data elastic_data certbot_conf certbot_www; do
+    docker volume create "$volume" >/dev/null || true
+done
 
 # Replace registry placeholder if present
 if grep -q "\${DOCKER_REGISTRY}" docker-compose.yaml 2>/dev/null; then
@@ -43,10 +44,6 @@ fi
 
 # Extract admin email for Certbot
 ADMIN_EMAIL=$(grep '^ADMIN_EMAIL=' .env | cut -d '=' -f2)
-
-# Ensure certificate volumes exist
-docker volume create certbot_conf >/dev/null || true
-docker volume create certbot_www >/dev/null || true
 
 # Bootstrap certificate if it doesn't already exist
 CERT_PATH=$(docker volume inspect certbot_conf -f '{{ .Mountpoint }}')

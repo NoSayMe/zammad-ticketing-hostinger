@@ -1,9 +1,11 @@
 # Nginx reverse proxy Dockerfile
 FROM nginx:alpine
 
-COPY conf.d /etc/nginx/conf.d
+COPY nginx.conf.template /etc/nginx/nginx.conf.template
 COPY html /usr/share/nginx/html
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
 
 VOLUME ["/var/www/certbot", "/etc/letsencrypt"]
 
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
