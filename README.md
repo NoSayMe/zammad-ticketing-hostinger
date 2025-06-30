@@ -64,6 +64,7 @@ All additional guides are stored in the [`docs/`](docs/) directory:
 
 - **[deployment.md](docs/deployment.md)** – step-by-step instructions to run the Zammad stack with Docker Compose.
 - **[ci-cd-pipeline.md](docs/ci-cd-pipeline.md)** – explains the Jenkins pipeline used for automated deployments.
+- **[nginx-certbot.md](docs/nginx-certbot.md)** – details the HTTPS setup using Certbot and NGINX.
 
 These documents will grow alongside the project as more features (like Microsoft 365 integration or n8n workflows) are added.
 
