@@ -55,6 +55,18 @@ fi
 # Bootstrap certificate if it doesn't already exist
 CERT_PATH=$(docker volume inspect certbot_conf -f '{{ .Mountpoint }}')
 if [ ! -d "$CERT_PATH/live/$REMOTE_DOMAIN" ]; then
+    echo "📡 Starting nginx for ACME challenge..."
+    docker-compose up -d nginx
+
+    echo "🔍 Pre-validating challenge path..."
+    docker run --rm -v certbot_www:/var/www/certbot busybox sh -c 'echo test > /var/www/certbot/test.txt'
+    sleep 2
+    if ! curl -fs "http://$REMOTE_DOMAIN/.well-known/acme-challenge/test.txt"; then
+        echo "❌ Challenge directory not reachable. Check DNS and firewall settings."
+        exit 1
+    fi
+    docker run --rm -v certbot_www:/var/www/certbot busybox rm /var/www/certbot/test.txt
+
     echo "🔐 Requesting initial certificate..."
     docker run --rm \
       -v certbot_conf:/etc/letsencrypt \
