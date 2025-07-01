@@ -38,7 +38,7 @@ Make sure the HTTP server block serves the challenge directory without redirects
 
 ```nginx
 location /.well-known/acme-challenge/ {
-    root /var/www/certbot;
+    alias /var/www/certbot/;
 }
 ```
 

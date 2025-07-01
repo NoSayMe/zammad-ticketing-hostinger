@@ -17,8 +17,8 @@ Certbot obtains TLS certificates from Let's Encrypt. This stack uses the **webro
 NGINX must serve the challenge directory without redirecting it to HTTPS:
 
 ```nginx
-location ^~ /.well-known/acme-challenge/ {
-    root /var/www/certbot;
+location /.well-known/acme-challenge/ {
+    alias /var/www/certbot/;
 }
 ```
 
