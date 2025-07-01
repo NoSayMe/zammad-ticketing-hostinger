@@ -164,7 +164,7 @@ The full NGINX configuration is stored in [`services/nginx/conf.d/default.conf.t
 ## Troubleshooting
 
 - **Certificate not renewing** – check the Certbot logs with `docker logs certbot`. Errors usually indicate network or DNS issues.
-- **Manually rerun** – if renewal fails repeatedly you can rerun the one‑time command:
+- **Manually rerun** – if renewal fails repeatedly you can rerun the one‑time command or use the [debug script](certbot-debug.md) to inspect the ACME challenge:
   ```bash
   docker run --rm -v certbot_conf:/etc/letsencrypt \
     -v ./certbot/www:/var/www/certbot \
@@ -184,5 +184,5 @@ The full NGINX configuration is stored in [`services/nginx/conf.d/default.conf.t
 - [`services/nginx/nginx.conf`](../services/nginx/nginx.conf)
 
 ---
-🔗 Back to [Main README](../README.md)  
-📚 See also: [Deployment](deployment.md) | [CI/CD](ci-cd-pipeline.md) | [Secrets](secrets.md)
+🔗 Back to [Main README](../README.md)
+📚 See also: [certbot-debug](certbot-debug.md) | [Deployment](deployment.md) | [CI/CD](ci-cd-pipeline.md) | [Secrets](secrets.md)
