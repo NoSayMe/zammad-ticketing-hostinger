@@ -97,6 +97,7 @@ All additional guides are stored in the [`docs/`](docs/) directory:
 - **[branding.md](docs/branding.md)** – Customization and UI theming.
 - **[certbot.md](docs/certbot.md)** – HTTPS setup with Certbot.
 - **[certbot-setup.md](docs/certbot-setup.md)** – How ACME HTTP-01 works and troubleshooting tips.
+- **[nginx-certbot.md](docs/nginx-certbot.md)** – NGINX proxy configuration and Cloudflare notes.
 - **[secrets.md](docs/secrets.md)** – Overview of Jenkins credential IDs.
 - **[first-run.md](docs/first-run.md)** – Troubleshoot common first-run errors, including [Certbot failures](docs/first-run.md#-common-certbot-failures-and-how-to-fix-them).
 - **[troubleshooting.md](docs/troubleshooting.md)** – Accessing logs, common errors.

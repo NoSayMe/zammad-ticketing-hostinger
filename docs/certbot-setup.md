@@ -22,11 +22,11 @@ location ^~ /.well-known/acme-challenge/ {
 }
 ```
 
-This block should appear **before** any other redirect rules. The NGINX and Certbot containers both mount the same volume:
+This block should appear **before** any other redirect rules. The NGINX and Certbot containers both mount the same directory:
 
 ```yaml
 volumes:
-  - certbot_www:/var/www/certbot
+  - ./certbot/www:/var/www/certbot
 ```
 
 ## Cloudflare Proxy Considerations
@@ -38,7 +38,7 @@ If your DNS uses Cloudflare, disable the orange cloud (HTTP proxy) during certif
 Create a test file in the shared volume and verify it from outside the server:
 
 ```bash
-docker run --rm -v certbot_www:/var/www/certbot busybox sh -c 'echo hello > /var/www/certbot/test.txt'
+docker run --rm -v ./certbot/www:/var/www/certbot busybox sh -c 'echo hello > /var/www/certbot/test.txt'
 curl http://<domain>/.well-known/acme-challenge/test.txt
 ```
 
