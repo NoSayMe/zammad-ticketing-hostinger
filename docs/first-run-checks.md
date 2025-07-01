@@ -44,7 +44,7 @@ docker exec -it postgres psql -U postgres
 | Zammad container crashes | No DB | Is Postgres healthy? | Restart stack |
 | NGINX shows bad gateway | Wrong proxy port | Check NGINX logs | Fix reverse proxy config |
 | Certbot failed | Domain/IP not pointing to VPS | `docker logs certbot` | Fix DNS or rerun deploy |
-| Jenkins can't SSH | Credential issue | Check Jenkins logs | Rebind SSH key |
+| Jenkins can't SSH | Credential issue | Check Jenkins logs | Rebind SSH key and confirm [Jenkins SSH Setup on Host Machine](first-run.md#-jenkins-ssh-setup-on-host-machine) |
 
 ## 🧪 Testing Endpoints
 

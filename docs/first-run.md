@@ -6,6 +6,27 @@
 
 This guide collects notes and fixes for your very first deployment. Follow the [Deployment guide](deployment.md) then review the checks below.
 
+## 🔐 Jenkins SSH Setup on Host Machine
+
+To allow the pipeline's `ssh` and `scp` steps to run correctly, the Jenkins host must have its SSH directory prepared **before the first build**:
+
+```bash
+# Create .ssh directory if it doesn't exist
+sudo mkdir -p /var/lib/jenkins/.ssh
+sudo chown jenkins:jenkins /var/lib/jenkins/.ssh
+sudo chmod 700 /var/lib/jenkins/.ssh
+
+# Create empty known_hosts file
+sudo touch /var/lib/jenkins/.ssh/known_hosts
+sudo chown jenkins:jenkins /var/lib/jenkins/.ssh/known_hosts
+sudo chmod 644 /var/lib/jenkins/.ssh/known_hosts
+
+# Restart Jenkins after change
+sudo systemctl restart jenkins
+```
+
+Perform this step only once as part of preparing the Jenkins node. It ensures SSH based deployments succeed and prevents `Permission denied` or `Failed to add host to known_hosts` errors.
+
 ## 🐛 Common Errors During First Run
 
 ### Certbot Fails with RecursionError
@@ -56,6 +77,8 @@ chmod 600 /var/lib/jenkins/.ssh/known_hosts
 ```
 
 This removes interactive prompts and lets Jenkins connect non‑interactively.
+
+If this step still fails, confirm you've completed the [Jenkins SSH Setup on Host Machine](#-jenkins-ssh-setup-on-host-machine).
 
 ### Certbot Challenge Errors
 

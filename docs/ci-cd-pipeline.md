@@ -75,6 +75,7 @@ A successful run looks similar to:
 
 **Permission denied during SSH**
 - Confirm the credential `ssh-remote-server-hostinger-deploy` contains a valid private key and that the public key is in `~/.ssh/authorized_keys` on the VPS.
+- Ensure the Jenkins host itself is prepared as described in [Jenkins SSH Setup on Host Machine](first-run.md#-jenkins-ssh-setup-on-host-machine).
 
 **Docker push fails**
 - Check that the credentials `dockerhub-credentials` are correct and that the Jenkins server has outbound internet access.

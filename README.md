@@ -23,6 +23,7 @@ This repository represents my first step into the world of open-source collabora
    - A record must point to your server's IP.
 3. **Jenkins CI/CD**
    - Handles deployment and injects secrets such as SSH keys, domain details and DockerHub credentials.
+   - Prepare the Jenkins host for SSH as described in [Jenkins SSH Setup on Host Machine](docs/first-run.md#-jenkins-ssh-setup-on-host-machine).
 4. **Azure Tenant with Admin Access**
    - Required for Microsoft 365 shared mailboxes, Entra ID authentication and Teams/SharePoint integrations.
 
