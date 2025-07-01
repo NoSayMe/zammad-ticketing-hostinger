@@ -22,6 +22,8 @@ The following credential IDs are referenced by the deployment pipeline. Values a
 | `m365-smtp-user`                        | SMTP user account |
 | `m365-smtp-password`                    | SMTP password/token |
 | `m365-shared-mailbox`                   | Shared mailbox address |
+| `zammad-admin-email`                    | Initial admin email |
+| `zammad-admin-password`                 | Initial admin password |
 
 ---
 🔗 Back to [Main README](../README.md)  

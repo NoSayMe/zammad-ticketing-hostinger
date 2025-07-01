@@ -97,6 +97,7 @@ All additional guides are stored in the [`docs/`](docs/) directory:
 - **[certbot.md](docs/certbot.md)** – HTTPS setup with Certbot.
 - **[secrets.md](docs/secrets.md)** – Overview of Jenkins credential IDs.
 - **[troubleshooting.md](docs/troubleshooting.md)** – Accessing logs, common errors.
+- **[zammad.md](docs/zammad.md)** – Zammad service and admin setup.
 
 These documents will grow alongside the project as more features (like Microsoft 365 integration or n8n workflows) are added.
 

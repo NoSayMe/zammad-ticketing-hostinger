@@ -84,6 +84,26 @@ pipeline {
                 }
             }
         }
+
+        stage('Initialize Zammad Admin') {
+            steps {
+                script {
+                    echo '🔐 Initializing Zammad admin...'
+                    withCredentials([
+                        sshUserPrivateKey(credentialsId: 'ssh-remote-server-hostinger-deploy', keyFileVariable: 'SSH_KEY'),
+                        string(credentialsId: 'remote-user', variable: 'REMOTE_USER'),
+                        string(credentialsId: 'remote-hostinger-deploy-ip', variable: 'REMOTE_HOST'),
+                        string(credentialsId: 'zammad-admin-email', variable: 'ZAMMAD_ADMIN_EMAIL'),
+                        string(credentialsId: 'zammad-admin-password', variable: 'ZAMMAD_ADMIN_PASSWORD')
+                    ]) {
+                        sh '''
+                            ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no "$REMOTE_USER@$REMOTE_HOST" \
+                            "docker exec zammad zammad run rake \"zammad:make_admin[$ZAMMAD_ADMIN_EMAIL,$ZAMMAD_ADMIN_PASSWORD]\""
+                        '''
+                    }
+                }
+            }
+        }
     }
 
     post {
