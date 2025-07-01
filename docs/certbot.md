@@ -30,7 +30,7 @@ Before requesting a certificate, verify that NGINX serves the challenge director
 
 ```nginx
 location /.well-known/acme-challenge/ {
-    root /var/www/certbot;
+    alias /var/www/certbot/;
 }
 ```
 
