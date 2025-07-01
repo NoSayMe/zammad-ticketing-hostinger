@@ -65,7 +65,7 @@ pipeline {
         stage('4. Deploy to Remote Server') {
             steps {
                 script {
-                    echo '🚀 Deploying to Hostinger VPS...'
+                    echo '🚀 Deploying to server...'
                     withCredentials([
                         sshUserPrivateKey(credentialsId: 'ssh-remote-server-hostinger-deploy', keyFileVariable: 'SSH_KEY'),
                         string(credentialsId: 'remote-user', variable: 'REMOTE_USER'),

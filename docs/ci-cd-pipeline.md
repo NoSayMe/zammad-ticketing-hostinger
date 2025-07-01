@@ -1,8 +1,10 @@
 [← Back to Main README](../README.md)
 
+> **Prerequisite:** Ensure the [Requirements & Prerequisites](../README.md#-requirements--prerequisites) are satisfied. Jenkins must already be installed.
+
 # Jenkins CI/CD Pipeline
 
-This document explains how the Jenkins pipeline deploys the Zammad stack to a Hostinger VPS. It covers job creation, GitHub webhook configuration, credential mapping, stage explanations, and basic troubleshooting.
+This document explains how the Jenkins pipeline deploys the Zammad stack to an Ubuntu 24.04 LTS server. It covers job creation, GitHub webhook configuration, credential mapping, stage explanations, and basic troubleshooting.
 
 ## 1. Jenkins Pipeline Job Setup
 
@@ -37,7 +39,7 @@ The following Jenkins credentials are referenced in the pipeline and should be c
 | `dockerhub-credentials`                 | Docker Hub login for pushing images |
 | `docker-registry`                       | Docker Hub namespace/registry |
 | `ssh-remote-server-hostinger-deploy`    | Private key for remote VPS |
-| `remote-hostinger-deploy-ip`            | IP address of the Hostinger server |
+| `remote-hostinger-deploy-ip`            | IP address of the Ubuntu server |
 | `remote-hostinger-domain`               | Domain name used for production deployment of Zammad |
 | `remote-user`                           | Remote Linux user (usually `root`) |
 
@@ -59,7 +61,7 @@ A successful run looks similar to:
 📥 Checking out repository...
 🏗️ Building Docker images (if any)...
 📤 Pushing Docker images (if any)...
-🚀 Deploying to Hostinger VPS...
+🚀 Deploying to Ubuntu server...
 [Remote] docker-compose up -d
 📊 Container status shown
 ✅ Deployment complete

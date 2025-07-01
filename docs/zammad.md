@@ -1,5 +1,7 @@
 [← Back to Main README](../README.md)
 
+> **Prerequisite:** Ensure the [Requirements & Prerequisites](../README.md#-requirements--prerequisites) are fulfilled before deploying Zammad.
+
 # Zammad Service
 
 Zammad provides the ticketing UI and API. The container is built from `services/zammad/Dockerfile` and depends on the `postgres` and `elasticsearch` services.

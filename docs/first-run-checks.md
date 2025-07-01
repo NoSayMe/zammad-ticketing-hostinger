@@ -1,5 +1,7 @@
 [← Back to Main README](../README.md)
 
+> **Prerequisite:** Ensure your environment meets the [Requirements & Prerequisites](../README.md#-requirements--prerequisites).
+
 # First Run Checks & Troubleshooting Guide
 
 This guide helps you verify the stack after your first successful deployment and provides steps to debug common issues.

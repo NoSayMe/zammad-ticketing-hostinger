@@ -1,5 +1,7 @@
 [← Back to Main README](../README.md)
 
+> **Prerequisite:** Confirm the [Requirements & Prerequisites](../README.md#-requirements--prerequisites) are met before diagnosing issues.
+
 # Troubleshooting
 
 Below are common issues encountered when deploying the stack.

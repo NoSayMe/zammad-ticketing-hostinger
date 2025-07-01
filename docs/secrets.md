@@ -1,5 +1,7 @@
 [← Back to Main README](../README.md)
 
+> **Prerequisite:** Review the [Requirements & Prerequisites](../README.md#-requirements--prerequisites). Jenkins manages these secrets externally.
+
 # Jenkins Secrets Index
 
 The following credential IDs are referenced by the deployment pipeline. Values are stored only in Jenkins and never in this repository.
@@ -10,7 +12,7 @@ The following credential IDs are referenced by the deployment pipeline. Values a
 | `dockerhub-credentials`                 | DockerHub login for pushing images |
 | `docker-registry`                       | Docker Hub namespace/registry |
 | `ssh-remote-server-hostinger-deploy`    | Private key for remote VPS |
-| `remote-hostinger-deploy-ip`            | IP address of the Hostinger server |
+| `remote-hostinger-deploy-ip`            | IP address of the server |
 | `remote-user`                           | Remote Linux user |
 | `remote-hostinger-domain`               | Domain name used for deployment |
 | `certbot-email`                         | Email for Let's Encrypt registration |
