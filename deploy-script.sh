@@ -25,9 +25,12 @@ if ! command -v docker-compose &>/dev/null; then
 fi
 
 # Ensure named Docker volumes exist
-for volume in zammad_data postgres_data elastic_data certbot_conf certbot_www; do
+for volume in zammad_data postgres_data elastic_data certbot_conf; do
     docker volume create "$volume" >/dev/null || true
 done
+
+# Ensure webroot directory exists for Certbot challenges
+mkdir -p certbot/www
 
 # Replace registry placeholder if present
 if grep -q "\${DOCKER_REGISTRY}" docker-compose.yaml 2>/dev/null; then
@@ -59,18 +62,18 @@ if [ ! -d "$CERT_PATH/live/$REMOTE_DOMAIN" ]; then
     docker-compose up -d nginx
 
     echo "🔍 Pre-validating challenge path..."
-    docker run --rm -v certbot_www:/var/www/certbot busybox sh -c 'echo test > /var/www/certbot/test.txt'
+    docker run --rm -v "$(pwd)/certbot/www:/var/www/certbot" busybox sh -c 'echo test > /var/www/certbot/test.txt'
     sleep 2
     if ! curl -fs "http://$REMOTE_DOMAIN/.well-known/acme-challenge/test.txt"; then
         echo "❌ Challenge directory not reachable. Check DNS and firewall settings."
         exit 1
     fi
-    docker run --rm -v certbot_www:/var/www/certbot busybox rm /var/www/certbot/test.txt
+    docker run --rm -v "$(pwd)/certbot/www:/var/www/certbot" busybox rm /var/www/certbot/test.txt
 
     echo "🔐 Requesting initial certificate..."
     docker run --rm \
       -v certbot_conf:/etc/letsencrypt \
-      -v certbot_www:/var/www/certbot \
+      -v "$(pwd)/certbot/www:/var/www/certbot" \
       certbot/certbot certonly --webroot \
       --webroot-path /var/www/certbot \
       -d "$REMOTE_DOMAIN" \
