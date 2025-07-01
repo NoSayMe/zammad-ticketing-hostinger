@@ -80,24 +80,25 @@ This removes interactive prompts and lets Jenkins connect non‑interactively.
 
 If this step still fails, confirm you've completed the [Jenkins SSH Setup on Host Machine](#-jenkins-ssh-setup-on-host-machine).
 
-### Certbot Challenge Errors
+## ⚠️ Common Certbot Failures and How to Fix Them
 
-**Symptoms:** Certbot fails with `Invalid response ... 522` or similar challenge messages.
+These errors typically appear during the first certificate request. Use the checklist below before re‑running Certbot.
 
-**Checklist:**
-1. Confirm DNS records point to your VPS IPv4:
+1. **Domain not pointing to the VPS** – verify the DNS `A` record:
    ```bash
    dig +short <domain>
    ```
-2. Test the challenge path is reachable:
+   The output should be the server's public IPv4.
+2. **Challenge path not reachable** – ensure NGINX serves the directory used by Certbot:
    ```bash
    curl http://<domain>/.well-known/acme-challenge/testfile
-   docker exec nginx curl localhost/.well-known/acme-challenge/testfile
+   docker exec nginx curl -s localhost/.well-known/acme-challenge/testfile
    docker exec certbot ls /var/www/certbot
    ```
-3. Ensure both NGINX and Certbot mount the same `certbot_www` volume.
+   All commands must succeed. If they fail, confirm that both containers share the `certbot_www` volume.
+3. **Cloudflare or firewall interference** – temporarily disable any proxies and open port 80 directly to the server.
 
-If any step fails, adjust DNS or volume mounts before re‑running Certbot.
+If any step fails, fix the issue before launching Certbot again.
 
 ---
 🔗 Back to [Main README](../README.md)
