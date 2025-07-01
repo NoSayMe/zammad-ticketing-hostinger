@@ -11,7 +11,7 @@ services/nginx/              # Dockerfile and config templates
 certbot/www/                 # ACME challenge files served by NGINX
 ```
 
-NGINX loads global settings from `services/nginx/nginx.conf` and includes all files under `/etc/nginx/conf.d/`. The main virtual host logic is rendered from `default.conf.template` (HTTPS) or `default.http.conf.template` when no certificate exists.
+NGINX loads global settings from `services/nginx/nginx.conf` and includes all files under `/etc/nginx/conf.d/`. The main virtual host logic is rendered from `conf.d/default.conf.template` (HTTPS) or `conf.d/default.http.conf.template` when no certificate exists.
 
 ## Cloudflare Proxy Warning
 
@@ -42,6 +42,22 @@ Both commands should output `hello`.
 ```
 
 If the test file is reachable, Certbot will obtain the certificate and NGINX will automatically reload.
+
+## Troubleshooting `"server" directive is not allowed here`
+
+If NGINX fails to start with an error like:
+
+```
+nginx: [emerg] "server" directive is not allowed here in /etc/nginx/nginx.conf:1
+```
+
+it means a `server {}` block was placed directly inside `nginx.conf`. Only global settings and the `http {}` block belong in that file. Move any `server {}` block into its own file under `/etc/nginx/conf.d/` (for example `default.conf`). After adjusting the files, test the configuration inside the container:
+
+```bash
+nginx -t
+```
+
+This command should report `syntax is ok` and `test is successful`.
 
 ---
 🔗 Back to [Main README](../README.md)
