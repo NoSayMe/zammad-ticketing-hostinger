@@ -1,5 +1,7 @@
 [← Back to Main README](../README.md)
 
+> **Prerequisite:** Ensure the [Requirements & Prerequisites](../README.md#-requirements--prerequisites) are met, particularly Azure tenant admin access.
+
 # Authentication and SSO
 
 Zammad can integrate with Microsoft 365 / Entra ID for single sign-on.

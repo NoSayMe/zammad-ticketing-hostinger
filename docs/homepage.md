@@ -1,5 +1,7 @@
 [← Back to Main README](../README.md)
 
+> **Prerequisite:** Ensure the [Requirements & Prerequisites](../README.md#-requirements--prerequisites) are in place.
+
 # Homepage
 
 The static landing page is served by the NGINX container. It resides at `services/nginx/html/index.html` and is copied into the image during the Docker build.

@@ -1,5 +1,7 @@
 [← Back to Main README](../README.md)
 
+> **Prerequisite:** Review the [Requirements & Prerequisites](../README.md#-requirements--prerequisites) before customizing branding.
+
 # Branding
 
 This guide explains how to customize the look and feel of the Zammad interface and the public homepage.

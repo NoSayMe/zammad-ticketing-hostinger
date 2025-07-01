@@ -12,10 +12,18 @@ This includes Markdown-based files in `/docs`, and optionally a `/wiki` containe
 
 ---
 
+## ⚙️ Requirements
+
+1. **Ubuntu 24.04 LTS server** – remote or local, reachable via root SSH.
+2. **Registered domain** – pointed to your server. Namecheap DNS is assumed.
+3. **Jenkins CI/CD** – used for deployment and secret injection (SSH keys, domain, DockerHub credentials).
+4. **Azure tenant admin access** – required for Microsoft 365 shared mailboxes, Entra ID auth, and other integrations.
+
+
 ## 🎯 Project Vision
 
 - A **secure**, **cost-effective**, and **scalable** ticketing solution
-- Fully deployable via **Jenkins CI/CD pipeline** to a remote **Hostinger VPS**
+- Fully deployable via **Jenkins CI/CD pipeline** to a remote or local **Ubuntu 24.04 LTS** server
 - All components run in **Docker containers** with isolated roles
 - Clean and modular structure: one service = one Dockerfile
 - Seamless integration with **Microsoft 365**, **NGINX + Certbot**, and more

@@ -1,5 +1,7 @@
 [← Back to Main README](../README.md)
 
+> **Prerequisite:** Review the [Requirements & Prerequisites](../README.md#-requirements--prerequisites). Azure tenant admin access is required for mailbox configuration.
+
 # Email Integration
 
 This guide explains how Zammad sends and receives email using Microsoft 365.

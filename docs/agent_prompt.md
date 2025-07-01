@@ -1,5 +1,7 @@
 [← Back to Main README](../README.md)
 
+> **Prerequisite:** Familiarize yourself with the [Requirements & Prerequisites](../README.md#-requirements--prerequisites) before contributing.
+
 You are contributing to an open-source project designed to create a secure, modular, and easy-to-deploy ticketing and automation platform based on Zammad and Docker. This project is being actively built to serve small to mid-sized organizations and educational purposes.
 
 ⚠️ Above all, this project is **documentation-first**. Every feature or service must be accompanied by clear, human-readable documentation that explains:
@@ -16,7 +18,7 @@ This includes Markdown-based files in `/docs`, and optionally a `/wiki` containe
 ## 🎯 Project Vision
 
 - A **secure**, **cost-effective**, and **scalable** ticketing solution
-- Fully deployable via **Jenkins CI/CD pipeline** to a remote **Hostinger VPS**
+- Fully deployable via **Jenkins CI/CD pipeline** to an Ubuntu 24.04 LTS server
 - All components run in **Docker containers** with isolated roles
 - Clean and modular structure: one service = one Dockerfile
 - Seamless integration with **Microsoft 365**, **NGINX + Certbot**, and more

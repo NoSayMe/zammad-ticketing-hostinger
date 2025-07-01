@@ -1,5 +1,7 @@
 [← Back to Main README](../README.md)
 
+> **Prerequisite:** Review the [Requirements & Prerequisites](../README.md#-requirements--prerequisites). No extra dependencies beyond a configured domain.
+
 # NGINX and Certbot Integration
 
 This guide describes how the project uses [Certbot](https://certbot.eff.org/) together with NGINX to obtain and renew free TLS certificates from Let's Encrypt.

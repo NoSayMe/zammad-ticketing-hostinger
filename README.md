@@ -6,13 +6,25 @@ Welcome! 👋
 - [Project Vision](#-project-vision)
 - [Goals](#-goals)
 - [Technology Stack](#-technology-stack)
+- [Requirements & Prerequisites](#-requirements--prerequisites)
 - [Quick Start](#-quick-start)
 - [Learning Together](#-learning-together)
 - [Next Steps & Contribution](#-next-steps--contribution)
 - [Documentation](#-documentation)
 - [Thank You](#-thank-you)
 
-This repository represents my first step into the world of open-source collaboration, designed specifically to create a simple, secure, and easy-to-deploy ticketing system based on the open-source tool **Zammad**, hosted on a cost-effective VPS provider (**Hostinger**), and seamlessly integrated with **Microsoft 365**.
+This repository represents my first step into the world of open-source collaboration, designed specifically to create a simple, secure, and easy-to-deploy ticketing system based on the open-source tool **Zammad**, hosted on an **Ubuntu 24.04 LTS** server (remote or local), and seamlessly integrated with **Microsoft 365**.
+
+## ⚙️ Requirements & Prerequisites
+
+1. **Remote or Local Ubuntu 24.04 LTS Server**
+   - Clean installation accessible via root SSH.
+2. **Domain Name (Namecheap assumed)**
+   - A record must point to your server's IP.
+3. **Jenkins CI/CD**
+   - Handles deployment and injects secrets such as SSH keys, domain details and DockerHub credentials.
+4. **Azure Tenant with Admin Access**
+   - Required for Microsoft 365 shared mailboxes, Entra ID authentication and Teams/SharePoint integrations.
 
 ## 🎯 Project Vision
 
@@ -28,7 +40,7 @@ In the longer term, I'm enthusiastic about exploring integrations with **AI agen
 
 ## 🔑 Goals
 
-* **Easy Deployment:** Deploy Zammad on a Hostinger VPS effortlessly via Jenkins CI/CD pipeline.
+* **Easy Deployment:** Deploy Zammad on an Ubuntu 24.04 LTS server using Jenkins CI/CD.
 * **Secure Integration:** Seamlessly integrate with Microsoft 365 for authentication, email, and other productivity tools.
 * **Cost-Effective Solution:** Offer businesses a practical alternative to expensive commercial solutions.
 * **Learning and Growth:** Document extensively to foster learning and enable contributors of all skill levels to participate.
@@ -39,7 +51,7 @@ In the longer term, I'm enthusiastic about exploring integrations with **AI agen
 * **Docker Compose:** Containerize and simplify deployments.
 * **Jenkins:** Automate deployments with an existing CI/CD pipeline.
 * **Microsoft 365:** OAuth authentication, email integration, Teams and SharePoint integration.
-* **Hostinger VPS:** Affordable, reliable hosting.
+* **Ubuntu 24.04 LTS Server:** Remote or local host machine.
 * **n8n (Future integration):** Workflow automation tool for custom integrations and actions.
 * **Structured Document Handling (Future integration):** Systematic processing and management of uploaded documents.
 * **AI Agents & MCP (Future integration):** Intelligent, dynamic workflow automation and customer interaction enhancements.

@@ -1,5 +1,7 @@
 [← Back to Main README](../README.md)
 
+> **Prerequisite:** Review the [Requirements & Prerequisites](../README.md#-requirements--prerequisites). No additional setup is required for this guide.
+
 # Deployment Guide – Zammad Docker Stack
 
 This guide explains how each service in the stack is containerised and where its data is stored. All containers connect to the `zammad-net` Docker network so they can communicate internally.
@@ -14,7 +16,7 @@ All credentials for paid services or sensitive infrastructure are stored as Jenk
 | `dockerhub-credentials`                 | DockerHub login for pushing images |
 | `docker-registry`                       | Docker Hub namespace/registry |
 | `ssh-remote-server-hostinger-deploy`    | Private key for remote VPS |
-| `remote-hostinger-deploy-ip`            | IP address of the Hostinger server |
+| `remote-hostinger-deploy-ip`            | IP address of the server |
 | `remote-user`                           | Remote Linux user |
 | `remote-hostinger-domain`               | Domain name used for deployment |
 | `certbot-email`                         | Email for Let's Encrypt registration |
