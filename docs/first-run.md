@@ -42,6 +42,40 @@ This guide collects notes and fixes for your very first deployment. Follow the [
   docker logs certbot
   ```
 
+### SSH Known Hosts
+
+**Symptoms:** Jenkins stages using `ssh` or `scp` exit with:
+`Failed to add the host to the list of known hosts (/var/lib/jenkins/.ssh/known_hosts)`.
+
+**Resolution:** Ensure the pipeline creates the `known_hosts` file with `ssh-keyscan` before connecting:
+
+```bash
+mkdir -p /var/lib/jenkins/.ssh
+ssh-keyscan "$REMOTE_HOST" >> /var/lib/jenkins/.ssh/known_hosts
+chmod 600 /var/lib/jenkins/.ssh/known_hosts
+```
+
+This removes interactive prompts and lets Jenkins connect non‑interactively.
+
+### Certbot Challenge Errors
+
+**Symptoms:** Certbot fails with `Invalid response ... 522` or similar challenge messages.
+
+**Checklist:**
+1. Confirm DNS records point to your VPS IPv4:
+   ```bash
+   dig +short <domain>
+   ```
+2. Test the challenge path is reachable:
+   ```bash
+   curl http://<domain>/.well-known/acme-challenge/testfile
+   docker exec nginx curl localhost/.well-known/acme-challenge/testfile
+   docker exec certbot ls /var/www/certbot
+   ```
+3. Ensure both NGINX and Certbot mount the same `certbot_www` volume.
+
+If any step fails, adjust DNS or volume mounts before re‑running Certbot.
+
 ---
 🔗 Back to [Main README](../README.md)
 📚 See also: [First Run Checks](first-run-checks.md) | [Deployment](deployment.md) | [Troubleshooting](troubleshooting.md)
