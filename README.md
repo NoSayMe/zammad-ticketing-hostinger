@@ -96,6 +96,7 @@ All additional guides are stored in the [`docs/`](docs/) directory:
 - **[branding.md](docs/branding.md)** – Customization and UI theming.
 - **[certbot.md](docs/certbot.md)** – HTTPS setup with Certbot.
 - **[secrets.md](docs/secrets.md)** – Overview of Jenkins credential IDs.
+- **[first-run.md](docs/first-run.md)** – Troubleshoot common first-run errors.
 - **[troubleshooting.md](docs/troubleshooting.md)** – Accessing logs, common errors.
 - **[zammad.md](docs/zammad.md)** – Zammad service and admin setup.
 

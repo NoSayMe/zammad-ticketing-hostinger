@@ -71,14 +71,15 @@ pipeline {
                         string(credentialsId: 'remote-user', variable: 'REMOTE_USER'),
                         string(credentialsId: 'remote-hostinger-deploy-ip', variable: 'REMOTE_HOST'),
                         string(credentialsId: 'docker-registry', variable: 'DOCKER_REGISTRY'),
-                        string(credentialsId: 'remote-hostinger-domain', variable: 'REMOTE_DOMAIN')
+                        string(credentialsId: 'remote-hostinger-domain', variable: 'REMOTE_DOMAIN'),
+                        string(credentialsId: 'certbot-email', variable: 'CERTBOT_EMAIL')
                     ]) {
                         sh '''
                             ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no "$REMOTE_USER@$REMOTE_HOST" "sudo mkdir -p /opt/zammad && sudo chown $REMOTE_USER:$REMOTE_USER /opt/zammad"
                             scp -i "$SSH_KEY" -o StrictHostKeyChecking=no docker-compose.yaml "$REMOTE_USER@$REMOTE_HOST:/opt/zammad/"
                             scp -i "$SSH_KEY" -o StrictHostKeyChecking=no deploy-script.sh "$REMOTE_USER@$REMOTE_HOST:/opt/zammad/"
                             scp -i "$SSH_KEY" -o StrictHostKeyChecking=no .env.example "$REMOTE_USER@$REMOTE_HOST:/opt/zammad/.env"
-                            ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no "$REMOTE_USER@$REMOTE_HOST" "cd /opt/zammad && chmod +x deploy-script.sh && ./deploy-script.sh '$DOCKER_REGISTRY' '$REMOTE_HOST' '$REMOTE_DOMAIN'"
+                            ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no "$REMOTE_USER@$REMOTE_HOST" "cd /opt/zammad && chmod +x deploy-script.sh && ./deploy-script.sh '$DOCKER_REGISTRY' '$REMOTE_HOST' '$REMOTE_DOMAIN' '$CERTBOT_EMAIL'"
                         '''
                     }
                 }

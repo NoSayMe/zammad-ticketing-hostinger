@@ -20,6 +20,8 @@ Two persistent volumes are defined in `docker-compose.yaml`:
 - **`certbot_conf`** – stores all certificate data under `/etc/letsencrypt`. This volume keeps the private key and renewal configuration across container restarts.
 - **`certbot_www`** – mapped to `/var/www/certbot` and served by NGINX. Certbot places challenge files here so Let's Encrypt can verify domain ownership.
 
+Both volumes **must** be mounted in **both** the NGINX and Certbot containers. If the webroot path isn't shared correctly, Certbot may fail with unexpected errors.
+
 On the server these volumes are managed by Docker and typically live under `/var/lib/docker/volumes/`.
 
 ## How It Works
@@ -36,13 +38,13 @@ Run this command once (inside or outside the container) to obtain the first cert
 docker run --rm \
   -v certbot_conf:/etc/letsencrypt \
   -v certbot_www:/var/www/certbot \
-  certbot/certbot certonly \
-  --webroot \
-  --webroot-path=/var/www/certbot \
-  --email your@email.com \
+  certbot/certbot certonly --webroot \
+  --webroot-path /var/www/certbot \
+  -d yourdomain.com \
+  --non-interactive \
   --agree-tos \
-  --no-eff-email \
-  -d yourdomain.com
+  --email you@example.com \
+  --no-eff-email
 ```
 
 Port **80** must be reachable and NGINX must route `/.well-known/acme-challenge/` to `/var/www/certbot` for this step to succeed. Certificates are stored under `/etc/letsencrypt/live/yourdomain.com/` inside the `certbot_conf` volume.
@@ -96,7 +98,7 @@ Jenkins only stores the domain and email used for Certbot. The certificate files
 | `remote-hostinger-domain`  | Domain pointed to the VPS       |
 | `certbot-email`            | Email address for Let's Encrypt registration       |
 
-These secrets are injected into `.env` or `docker-compose.yaml` during the pipeline so the services know which domain to use.
+These secrets are injected into `.env` during the pipeline so the services know the domain and email to use. The `certbot-email` secret becomes the `CERTBOT_EMAIL` environment variable passed to `deploy-script.sh`.
 
 ### Verification
 
@@ -138,8 +140,13 @@ The full NGINX configuration is stored in [`services/nginx/nginx.conf.template`]
   ```bash
   docker run --rm -v certbot_conf:/etc/letsencrypt \
     -v certbot_www:/var/www/certbot \
-    certbot/certbot certonly --webroot -w /var/www/certbot \
-    --email <your-email> --agree-tos --no-eff-email -d ${REMOTE_DOMAIN}
+    certbot/certbot certonly --webroot \
+    --webroot-path /var/www/certbot \
+    -d ${REMOTE_DOMAIN} \
+    --non-interactive \
+    --agree-tos \
+    --email <your-email> \
+    --no-eff-email
   ```
 
 ## References
