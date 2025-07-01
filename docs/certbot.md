@@ -24,6 +24,34 @@ Both volumes **must** be mounted in **both** the NGINX and Certbot containers. I
 
 On the server these volumes are managed by Docker and typically live under `/var/lib/docker/volumes/`.
 
+## Webroot Validation Setup
+
+Before requesting a certificate, verify that NGINX serves the challenge directory and that the Certbot container can write to it. In `services/nginx/nginx.conf.template` you should see:
+
+```nginx
+location /.well-known/acme-challenge/ {
+    root /var/www/certbot;
+}
+```
+
+Both containers mount the same `certbot_www` volume:
+
+```yaml
+volumes:
+  - certbot_www:/var/www/certbot
+```
+
+Run these checks if the challenge fails:
+
+```bash
+curl http://<domain>/.well-known/acme-challenge/testfile
+dig +short <domain>
+docker exec nginx curl -s localhost/.well-known/acme-challenge/testfile
+docker exec certbot ls /var/www/certbot
+```
+
+All commands should succeed and return the expected data. If not, confirm your DNS points to the VPS IPv4 address and that the volumes are shared correctly.
+
 ## How It Works
 
 1. **One‑time certificate request** – during deployment `deploy-script.sh` checks if `certbot_conf` already contains a certificate for `${REMOTE_DOMAIN}`. If not, it runs a one-off Certbot container to request it using the webroot method.

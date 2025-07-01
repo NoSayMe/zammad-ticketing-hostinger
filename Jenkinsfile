@@ -75,6 +75,9 @@ pipeline {
                         string(credentialsId: 'certbot-email', variable: 'CERTBOT_EMAIL')
                     ]) {
                         sh '''
+                            mkdir -p /var/lib/jenkins/.ssh
+                            ssh-keyscan "$REMOTE_HOST" >> /var/lib/jenkins/.ssh/known_hosts
+                            chmod 600 /var/lib/jenkins/.ssh/known_hosts
                             ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no "$REMOTE_USER@$REMOTE_HOST" "sudo mkdir -p /opt/zammad && sudo chown $REMOTE_USER:$REMOTE_USER /opt/zammad"
                             scp -i "$SSH_KEY" -o StrictHostKeyChecking=no docker-compose.yaml "$REMOTE_USER@$REMOTE_HOST:/opt/zammad/"
                             scp -i "$SSH_KEY" -o StrictHostKeyChecking=no deploy-script.sh "$REMOTE_USER@$REMOTE_HOST:/opt/zammad/"
