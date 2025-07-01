@@ -70,4 +70,4 @@ These volumes are defined in `docker-compose.yaml` and ensure data is retained a
 
 ---
 🔗 Back to [Main README](../README.md)  
-📚 See also: [CI/CD](ci-cd-pipeline.md) | [Certbot](certbot.md) | [Secrets](secrets.md)
+📚 See also: [CI/CD](ci-cd-pipeline.md) | [Certbot](certbot.md) | [Secrets](secrets.md) | [Zammad](zammad.md)
