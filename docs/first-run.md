@@ -89,15 +89,15 @@ These errors typically appear during the first certificate request. Use the chec
    dig +short <domain>
    ```
    The output should be the server's public IPv4.
-2. **Challenge path not reachable** – ensure NGINX serves the directory used by Certbot:
+2. **Challenge path not reachable** – ensure NGINX serves the directory used by Certbot. The deploy script now uploads a temporary `.well-known-check.txt` file and verifies it before requesting a certificate:
    ```bash
-   curl http://<domain>/.well-known/acme-challenge/testfile
-   docker exec nginx curl -s localhost/.well-known/acme-challenge/testfile
+   curl http://<domain>/.well-known/acme-challenge/.well-known-check.txt
+   docker exec nginx curl -s localhost/.well-known/acme-challenge/.well-known-check.txt
    docker exec certbot ls /var/www/certbot
    ```
    All commands must succeed. If they fail, confirm that both containers share the `certbot_webroot` volume.
 3. **Cloudflare or firewall interference** – temporarily disable any proxies and open port 80 directly to the server.
-4. **NGINX config missing ACME block** – the first boot may not generate `default.conf` with the challenge location. Add:
+4. **NGINX config missing ACME block** – the container entrypoint now injects this block automatically if missing. If you still don't see it in `/etc/nginx/conf.d/default.conf`, add:
 ```nginx
 location /.well-known/acme-challenge/ {
     alias /var/www/certbot/;
