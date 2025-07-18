@@ -24,7 +24,13 @@ pipeline {
                             for (service in services) {
                                 if (fileExists("${servicesDir}/${service}/Dockerfile")) {
                                     sh """
-                                        docker build -t \$DOCKER_REGISTRY/${service}:latest -f ${servicesDir}/${service}/Dockerfile ${servicesDir}
+                                        if ! docker buildx version >/dev/null 2>&1; then
+                                            echo '📦 Installing docker-buildx-plugin...'
+                                            sudo apt-get update -y
+                                            sudo apt-get install -y docker-buildx-plugin
+                                        fi
+                                        docker buildx create --use --name zammadbuilder || true
+                                        docker buildx build --load -t \$DOCKER_REGISTRY/${service}:latest -f ${servicesDir}/${service}/Dockerfile ${servicesDir}
                                         docker tag \$DOCKER_REGISTRY/${service}:latest \$DOCKER_REGISTRY/${service}:${BUILD_NUMBER}
                                     """
                                 }
