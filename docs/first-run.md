@@ -89,11 +89,14 @@ These errors typically appear during the first certificate request. Use the chec
    dig +short <domain>
    ```
    The output should be the server's public IPv4.
-2. **Challenge path not reachable** – ensure NGINX serves the directory used by Certbot. The deploy script now uploads a temporary `.well-known-check.txt` file and verifies it before requesting a certificate:
+2. **Challenge path not reachable** – ensure NGINX serves the directory used by Certbot. The deploy script writes a temporary `.well-known-check.txt` file to the `zammad_certbot_webroot` volume and verifies it before requesting a certificate:
    ```bash
    curl http://<domain>/.well-known/acme-challenge/.well-known-check.txt
    docker exec nginx curl -s localhost/.well-known/acme-challenge/.well-known-check.txt
    docker exec certbot ls /var/www/certbot
+   # manually create the check file if needed
+   docker run --rm -v zammad_certbot_webroot:/var/www/certbot busybox sh -c 'echo ok > /var/www/certbot/.well-known-check.txt'
+   docker run --rm -v zammad_certbot_webroot:/var/www/certbot busybox rm /var/www/certbot/.well-known-check.txt
    ```
    All commands must succeed. If they fail, confirm that both containers share the `certbot_webroot` volume.
 3. **Cloudflare or firewall interference** – temporarily disable any proxies and open port 80 directly to the server.
