@@ -73,7 +73,9 @@ if [ ! -d "$CERT_PATH/live/$REMOTE_DOMAIN" ]; then
     docker-compose up -d nginx
 
     echo "🔍 Pre-validating challenge path..."
-    docker run --rm -v "$CERTBOT_WEBROOT_VOLUME":/var/www/certbot busybox sh -c 'echo ok > /var/www/certbot/.well-known-check.txt'
+    docker run --rm -v "$CERTBOT_WEBROOT_VOLUME":/var/www/certbot busybox \
+      sh -c 'mkdir -p /var/www/certbot/.well-known/acme-challenge && \
+      echo ok > /var/www/certbot/.well-known/acme-challenge/.well-known-check.txt'
     for i in $(seq 1 10); do
         if curl -fs "http://$REMOTE_DOMAIN/.well-known/acme-challenge/.well-known-check.txt" >/dev/null; then
             echo "✅ Challenge directory reachable"
@@ -87,7 +89,7 @@ if [ ! -d "$CERT_PATH/live/$REMOTE_DOMAIN" ]; then
         docker-compose logs nginx | tail -n 20
         exit 1
     fi
-    docker run --rm -v "$CERTBOT_WEBROOT_VOLUME":/var/www/certbot busybox rm /var/www/certbot/.well-known-check.txt
+    docker run --rm -v "$CERTBOT_WEBROOT_VOLUME":/var/www/certbot busybox rm /var/www/certbot/.well-known/acme-challenge/.well-known-check.txt
 
     echo "🔐 Requesting initial certificate..."
     docker run --rm \
