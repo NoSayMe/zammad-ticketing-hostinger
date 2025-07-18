@@ -12,6 +12,7 @@ volumes:
 
 services:
   postgres:
+    container_name: postgres
     build:
       context: ./services
       dockerfile: postgres/Dockerfile
@@ -27,6 +28,7 @@ services:
       - zammad-net
 
   elasticsearch:
+    container_name: elasticsearch
     build:
       context: ./services
       dockerfile: elasticsearch/Dockerfile
@@ -41,6 +43,7 @@ services:
       - zammad-net
 
   zammad:
+    container_name: zammad
     build:
       context: ./services
       dockerfile: zammad/Dockerfile
@@ -62,6 +65,7 @@ services:
       - zammad-net
 
   nginx:
+    container_name: nginx
     build:
       context: ./services
       dockerfile: nginx/Dockerfile
@@ -81,6 +85,7 @@ services:
       - zammad-net
 
   certbot:
+    container_name: certbot
     build:
       context: ./services
       dockerfile: certbot/Dockerfile
