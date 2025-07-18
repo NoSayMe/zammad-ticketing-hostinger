@@ -10,7 +10,7 @@ RUN chmod +x /usr/local/bin/ensure-config.sh /tmp/nginx/docker-entrypoint.sh \
          echo "✅ Using provided nginx.conf"; \
          cp /tmp/nginx/nginx.conf /etc/nginx/nginx.conf; \
        else \
-         echo "⚠️  nginx.conf not found, using template"; \
+         echo "⚠️  nginx.conf not found, using default.conf.template"; \
          cp /tmp/nginx/default.conf.template /etc/nginx/nginx.conf; \
        fi \
     && cp /tmp/nginx/default.http.conf.template /etc/nginx/conf.d/default.http.conf.template \
