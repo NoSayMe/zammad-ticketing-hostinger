@@ -24,8 +24,8 @@ pipeline {
                             for (service in services) {
                                 if (fileExists("${servicesDir}/${service}/Dockerfile")) {
                                     sh """
-                                        docker build -t ${DOCKER_REGISTRY}/${service}:latest ${servicesDir}/${service}
-                                        docker tag ${DOCKER_REGISTRY}/${service}:latest ${DOCKER_REGISTRY}/${service}:${BUILD_NUMBER}
+                                        docker build -t \$DOCKER_REGISTRY/${service}:latest ${servicesDir}/${service}
+                                        docker tag \$DOCKER_REGISTRY/${service}:latest \$DOCKER_REGISTRY/${service}:${BUILD_NUMBER}
                                     """
                                 }
                             }
@@ -49,8 +49,8 @@ pipeline {
                             for (service in services) {
                                 if (fileExists("${servicesDir}/${service}/Dockerfile")) {
                                     sh """
-                                        docker push ${DOCKER_REGISTRY}/${service}:latest
-                                        docker push ${DOCKER_REGISTRY}/${service}:${BUILD_NUMBER}
+                                        docker push \$DOCKER_REGISTRY/${service}:latest
+                                        docker push \$DOCKER_REGISTRY/${service}:${BUILD_NUMBER}
                                     """
                                 }
                             }
