@@ -38,7 +38,7 @@ Make sure the HTTP server block serves the challenge directory without redirects
 
 ```nginx
 location /.well-known/acme-challenge/ {
-    alias /var/www/certbot/;
+    alias /var/www/certbot/.well-known/acme-challenge/;
 }
 ```
 
@@ -92,7 +92,7 @@ If the test file is reachable, Certbot will obtain the certificate and NGINX wil
 - Missing `/.well-known/acme-challenge/` block in `default.conf`. The container entrypoint now injects this block automatically if it's absent, but verify the server config contains:
 ```nginx
 location /.well-known/acme-challenge/ {
-    alias /var/www/certbot/;
+    alias /var/www/certbot/.well-known/acme-challenge/;
 }
 ```
 Then reload NGINX.

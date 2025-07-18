@@ -19,7 +19,7 @@ fi
 
 if ! grep -q '/.well-known/acme-challenge/' "$CONF_FILE"; then
     echo "Injecting ACME challenge block into $CONF_FILE"
-    sed -i '/server_name/a\    location /.well-known/acme-challenge/ {\n        alias /var/www/certbot/;\n    }\n' "$CONF_FILE"
+    sed -i '/server_name/a\    location /.well-known/acme-challenge/ {\n        alias /var/www/certbot/.well-known/acme-challenge/;\n    }\n' "$CONF_FILE"
 fi
 
 nginx -t

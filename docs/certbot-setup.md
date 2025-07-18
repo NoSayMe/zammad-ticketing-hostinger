@@ -18,7 +18,7 @@ NGINX must serve the challenge directory without redirecting it to HTTPS:
 
 ```nginx
 location /.well-known/acme-challenge/ {
-    alias /var/www/certbot/;
+    alias /var/www/certbot/.well-known/acme-challenge/;
 }
 ```
 

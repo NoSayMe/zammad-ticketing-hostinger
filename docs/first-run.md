@@ -103,7 +103,7 @@ These errors typically appear during the first certificate request. Use the chec
 4. **NGINX config missing ACME block** – the container entrypoint now injects this block automatically if missing. If you still don't see it in `/etc/nginx/conf.d/default.conf`, add:
 ```nginx
 location /.well-known/acme-challenge/ {
-    alias /var/www/certbot/;
+    alias /var/www/certbot/.well-known/acme-challenge/;
 }
 ```
 Then reload NGINX with `nginx -t && nginx -s reload`.
