@@ -37,6 +37,21 @@ Below are common issues encountered when deploying the stack.
 - Verify the `postgres` container is running and reachable.
 - Confirm credentials in `.env` match the database environment variables.
 
+## Zammad permission error
+If the Zammad container repeatedly restarts and `docker logs zammad` shows:
+
+```
+The file /opt/zammad/config/database.yml is not owned by root
+```
+
+the volume files have the wrong ownership. Fix it by resetting the owner:
+
+```bash
+docker-compose run --rm -u root zammad \
+  chown root:root /opt/zammad/config/database.yml
+docker-compose restart zammad
+```
+
 ## Docker DNS failures
 If `docker pull` or `docker-compose up` fail with DNS errors like:
 
