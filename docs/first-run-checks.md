@@ -34,7 +34,8 @@ Example checks:
 
 ```bash
 docker logs zammad
-docker exec -it postgres psql -U postgres
+# Connect to the database (default user is "zammad")
+docker exec -it postgres psql -U ${POSTGRES_USER:-zammad}
 ```
 
 ## 🛠️ Common Issues + Fixes

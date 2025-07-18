@@ -36,6 +36,8 @@ Below are common issues encountered when deploying the stack.
 ## Database connection errors
 - Verify the `postgres` container is running and reachable.
 - Confirm credentials in `.env` match the database environment variables.
+- If `psql` reports `role "postgres" does not exist`, connect using the username
+  defined by `POSTGRES_USER` (default `zammad`).
 
 ## Zammad permission error
 If the Zammad container repeatedly restarts and `docker logs zammad` shows:
