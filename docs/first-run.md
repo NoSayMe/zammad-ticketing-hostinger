@@ -97,6 +97,14 @@ These errors typically appear during the first certificate request. Use the chec
    ```
    All commands must succeed. If they fail, confirm that both containers share the `certbot_webroot` volume.
 3. **Cloudflare or firewall interference** – temporarily disable any proxies and open port 80 directly to the server.
+4. **NGINX config missing ACME block** – the first boot may not generate `default.conf` with the challenge location. Add:
+```nginx
+location /.well-known/acme-challenge/ {
+    alias /var/www/certbot/;
+}
+```
+Then reload NGINX with `nginx -t && nginx -s reload`.
+
 
 If any step fails, fix the issue before launching Certbot again.
 

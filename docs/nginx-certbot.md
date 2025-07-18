@@ -89,6 +89,13 @@ If the test file is reachable, Certbot will obtain the certificate and NGINX wil
 ## Common ACME Challenge Errors
 
 - `404 Not Found` when fetching the challenge file. Confirm that `certbot_webroot` is mounted in both containers and that the path resolves with `docker exec nginx ls -l /var/www/certbot/.well-known/acme-challenge`.
+- Missing `/.well-known/acme-challenge/` block in `default.conf`. Ensure the server config contains:
+```nginx
+location /.well-known/acme-challenge/ {
+    alias /var/www/certbot/;
+}
+```
+Then reload NGINX.
 - DNS pointing to the wrong IP. Run `dig +short yourdomain.com` and ensure it matches the server.
 
 ## Troubleshooting `"server" directive is not allowed here`
