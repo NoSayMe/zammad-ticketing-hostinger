@@ -24,7 +24,7 @@ pipeline {
                             for (service in services) {
                                 if (fileExists("${servicesDir}/${service}/Dockerfile")) {
                                     sh """
-                                        docker build -t \$DOCKER_REGISTRY/${service}:latest ${servicesDir}/${service}
+                                        docker build -t \$DOCKER_REGISTRY/${service}:latest -f ${servicesDir}/${service}/Dockerfile ${servicesDir}
                                         docker tag \$DOCKER_REGISTRY/${service}:latest \$DOCKER_REGISTRY/${service}:${BUILD_NUMBER}
                                     """
                                 }
