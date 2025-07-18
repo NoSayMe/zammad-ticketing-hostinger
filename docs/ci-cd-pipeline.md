@@ -48,7 +48,7 @@ The following Jenkins credentials are referenced in the pipeline and should be c
 The `Jenkinsfile` in the repository performs these steps:
 
 1. **Checkout** – `checkout scm` fetches the latest commit.
-2. **Build Images** – Optional stage that looks for a `services/` directory and builds any Dockerfiles it finds. Because the project currently only uses the official Zammad image, this stage is skipped until custom services are added.
+2. **Build Images** – Uses Docker **Buildx** with BuildKit to build any Dockerfiles found under the `services/` directory. Ensure the Jenkins host has the `docker-buildx-plugin` package installed so this step works correctly. If no Dockerfiles exist, the stage is skipped.
 3. **Push to DockerHub** – If images were built, they are pushed using the credentials defined by `docker-registry` and `dockerhub-credentials`.
 4. **Deploy to Remote Server** – Copies `docker-compose.yaml`, `.env`, and `deploy-script.sh` to `/opt/zammad` on the VPS and runs the script. The script installs Docker/Compose if needed, pulls the latest Zammad stack, and starts the services with `docker-compose up -d`.
 5. **Post Actions** – Local Docker images are pruned to keep the Jenkins host clean.
