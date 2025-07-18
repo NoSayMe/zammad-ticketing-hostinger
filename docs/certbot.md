@@ -77,6 +77,12 @@ docker run --rm \
 
 Port **80** must be reachable and NGINX must route `/.well-known/acme-challenge/` to `/var/www/certbot` for this step to succeed. Certificates are stored under `/etc/letsencrypt/live/yourdomain.com/` inside the `certbot_conf` volume.
 
+After the certificate is issued, restart NGINX so the HTTPS configuration is loaded:
+
+```bash
+docker-compose restart nginx
+```
+
 ### Using the Certificates in NGINX
 
 Mount the `certbot_conf` volume in the NGINX service so the certificates are available without copying them into Jenkins:

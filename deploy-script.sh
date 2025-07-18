@@ -49,7 +49,12 @@ if [ -n "$CERTBOT_EMAIL_ARG" ]; then
 elif [ -n "${CERTBOT_EMAIL:-}" ]; then
     CERTBOT_EMAIL="$CERTBOT_EMAIL"
 else
-    CERTBOT_EMAIL=$(grep '^CERTBOT_EMAIL=' .env | cut -d '=' -f2)
+    if [ -f .env ]; then
+        CERTBOT_EMAIL=$(grep '^CERTBOT_EMAIL=' .env | cut -d '=' -f2 || true)
+    else
+        echo "❌ CERTBOT_EMAIL not set. Provide as argument or via CERTBOT_EMAIL env variable."
+        exit 1
+    fi
 fi
 
 # Bootstrap certificate if it doesn't already exist
@@ -78,6 +83,9 @@ if [ ! -d "$CERT_PATH/live/$REMOTE_DOMAIN" ]; then
       --agree-tos \
       --email "$CERTBOT_EMAIL" \
       --no-eff-email
+
+    echo "🔄 Restarting nginx to apply HTTPS config"
+    docker-compose restart nginx
 fi
 
 # Pull and run containers
