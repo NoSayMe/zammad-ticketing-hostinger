@@ -39,7 +39,7 @@ Provides search capabilities for Zammad. Built from `services/elasticsearch/Dock
 The main application container built from `services/zammad/Dockerfile`. It depends on `postgres` and `elasticsearch`. Application files and attachments are stored in `zammad_data` mounted at `/opt/zammad`.
 
 ### nginx
-Acts as the reverse proxy and exposes ports 80 and 443. It is built from `services/nginx/Dockerfile` which uses template files for its configuration. Certificates are stored in the `certbot_conf` volume and ACME challenge files are served from the local directory `./certbot/www`. See the [Certbot guide](certbot.md) for HTTPS configuration details.
+Acts as the reverse proxy and exposes ports 80 and 443. It is built from `services/nginx/Dockerfile` which uses template files for its configuration. Certificates are stored in the `certbot_conf` volume and ACME challenge files are served from the `certbot_webroot` volume mounted at `/var/www/certbot`. See the [Certbot guide](certbot.md) for HTTPS configuration details.
 
 ### certbot
 Handles Let's Encrypt certificate issuance and renewal. The container is built from [`services/certbot/Dockerfile`](../services/certbot/Dockerfile), which uses the official `certbot/certbot` image as its base. It shares the same volumes as NGINX for certificate storage.

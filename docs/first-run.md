@@ -95,7 +95,7 @@ These errors typically appear during the first certificate request. Use the chec
    docker exec nginx curl -s localhost/.well-known/acme-challenge/testfile
    docker exec certbot ls /var/www/certbot
    ```
-   All commands must succeed. If they fail, confirm that both containers share the `./certbot/www` directory.
+   All commands must succeed. If they fail, confirm that both containers share the `certbot_webroot` volume.
 3. **Cloudflare or firewall interference** – temporarily disable any proxies and open port 80 directly to the server.
 
 If any step fails, fix the issue before launching Certbot again.
