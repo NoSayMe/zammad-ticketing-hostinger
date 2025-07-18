@@ -95,8 +95,11 @@ These errors typically appear during the first certificate request. Use the chec
    docker exec nginx curl -s localhost/.well-known/acme-challenge/.well-known-check.txt
    docker exec certbot ls /var/www/certbot
    # manually create the check file if needed
-   docker run --rm -v zammad_certbot_webroot:/var/www/certbot busybox sh -c 'echo ok > /var/www/certbot/.well-known-check.txt'
-   docker run --rm -v zammad_certbot_webroot:/var/www/certbot busybox rm /var/www/certbot/.well-known-check.txt
+   docker run --rm -v zammad_certbot_webroot:/var/www/certbot busybox \
+     sh -c 'mkdir -p /var/www/certbot/.well-known/acme-challenge && \
+     echo ok > /var/www/certbot/.well-known/acme-challenge/.well-known-check.txt'
+   docker run --rm -v zammad_certbot_webroot:/var/www/certbot busybox \
+     rm /var/www/certbot/.well-known/acme-challenge/.well-known-check.txt
    ```
    All commands must succeed. If they fail, confirm that both containers share the `certbot_webroot` volume.
 3. **Cloudflare or firewall interference** – temporarily disable any proxies and open port 80 directly to the server.
