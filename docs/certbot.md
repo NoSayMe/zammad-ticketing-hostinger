@@ -26,7 +26,7 @@ On the server these volumes are managed by Docker and typically live under `/var
 
 ## Webroot Validation Setup
 
-Before requesting a certificate, verify that NGINX serves the challenge directory and that the Certbot container can write to it. In `services/nginx/conf.d/default.conf.template` you should see:
+Before requesting a certificate, verify that NGINX serves the challenge directory and that the Certbot container can write to it. In `services/nginx/default.conf.template` you should see:
 
 ```nginx
 location /.well-known/acme-challenge/ {
@@ -165,7 +165,7 @@ ssl_certificate /etc/letsencrypt/live/${REMOTE_DOMAIN}/fullchain.pem;
 ssl_certificate_key /etc/letsencrypt/live/${REMOTE_DOMAIN}/privkey.pem;
 ```
 
-The full NGINX configuration is stored in [`services/nginx/conf.d/default.conf.template`](../services/nginx/conf.d/default.conf.template) and mounts the Certbot volumes so these paths are available inside the container. See the [Deployment guide](deployment.md) for how the container is started.
+The full NGINX configuration is stored in [`services/nginx/default.conf.template`](../services/nginx/default.conf.template) and mounts the Certbot volumes so these paths are available inside the container. See the [Deployment guide](deployment.md) for how the container is started.
 
 ## Troubleshooting
 
