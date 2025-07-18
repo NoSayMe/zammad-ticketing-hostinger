@@ -18,7 +18,7 @@ Certbot automates the process of requesting and renewing certificates. We run it
 Two persistent locations are defined in `docker-compose.yaml`:
 
 - **`certbot_conf`** – stores all certificate data under `/etc/letsencrypt`. This volume keeps the private key and renewal configuration across container restarts.
-- **`certbot_www`** – directory `./certbot/www` mapped to `/var/www/certbot` and served by NGINX. Certbot places challenge files here so Let's Encrypt can verify domain ownership.
+- **`certbot_webroot`** – a named Docker volume mounted to `/var/www/certbot` and served by NGINX. Certbot places challenge files here so Let's Encrypt can verify domain ownership.
 
 Both volumes **must** be mounted in **both** the NGINX and Certbot containers. If the webroot path isn't shared correctly, Certbot may fail with unexpected errors.
 
@@ -38,7 +38,7 @@ Both containers mount the same directory for challenges:
 
 ```yaml
 volumes:
-  - ./certbot/www:/var/www/certbot
+  - certbot_webroot:/var/www/certbot
 ```
 
 Run these checks if the challenge fails:
@@ -56,7 +56,7 @@ All commands should succeed and return the expected data. If not, confirm your D
 
 1. **One‑time certificate request** – during deployment `deploy-script.sh` checks if `certbot_conf` already contains a certificate for `${REMOTE_DOMAIN}`. If not, it runs a one-off Certbot container to request it using the webroot method.
 2. **Automatic renewal** – the `certbot` service runs in a loop and calls `certbot renew` every 12 hours. Renewed certificates are written to `certbot_conf` and automatically picked up by NGINX after reload.
-3. **ACME challenge handling** – NGINX exposes `/.well-known/acme-challenge/` from the `./certbot/www` directory so Let's Encrypt can reach the challenge files created by Certbot.
+3. **ACME challenge handling** – NGINX exposes `/.well-known/acme-challenge/` from the `certbot_webroot` volume so Let's Encrypt can reach the challenge files created by Certbot.
 
 ### Initial Certificate Request
 
@@ -65,7 +65,7 @@ Run this command once (inside or outside the container) to obtain the first cert
 ```bash
 docker run --rm \
   -v certbot_conf:/etc/letsencrypt \
-  -v ./certbot/www:/var/www/certbot \
+  -v certbot_webroot:/var/www/certbot \
   certbot/certbot certonly --webroot \
   --webroot-path /var/www/certbot \
   -d yourdomain.com \
@@ -111,7 +111,7 @@ The running `certbot` container periodically checks and renews certificates. One
 certbot:
   image: certbot/certbot
   volumes:
-    - ./certbot/www:/var/www/certbot
+    - certbot_webroot:/var/www/certbot
     - certbot_conf:/etc/letsencrypt
   entrypoint: >
     sh -c "trap exit TERM; while :; do
@@ -173,7 +173,7 @@ The full NGINX configuration is stored in [`services/nginx/conf.d/default.conf.t
 - **Manually rerun** – if renewal fails repeatedly you can rerun the one‑time command or use the [debug script](certbot-debug.md) to inspect the ACME challenge:
   ```bash
   docker run --rm -v certbot_conf:/etc/letsencrypt \
-    -v ./certbot/www:/var/www/certbot \
+    -v certbot_webroot:/var/www/certbot \
     certbot/certbot certonly --webroot \
     --webroot-path /var/www/certbot \
     -d ${REMOTE_DOMAIN} \
