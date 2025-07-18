@@ -13,6 +13,10 @@ Below are common issues encountered when deploying the stack.
 ## Certificate issues
 - Ensure ports 80 and 443 are reachable from the internet.
 - Check the Certbot container logs for renewal failures.
+- Confirm the certificate exists with `docker exec certbot certbot certificates`.
+- Use `docker exec certbot certbot renew --dry-run` to test renewal.
+- If no certificate is found, rerun `./deploy-script.sh` to request one.
+- Verify DNS points to your server with `dig +short <domain>`.
 
 ## Database connection errors
 - Verify the `postgres` container is running and reachable.
