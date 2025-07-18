@@ -84,12 +84,12 @@ docker run --rm \
   --email you@example.com
 ```
 
-If the test file is reachable, Certbot will obtain the certificate and NGINX will automatically reload.
+If the test file is reachable, Certbot will obtain the certificate and NGINX will automatically reload. The deployment script now writes a temporary `.well-known-check.txt` file and repeatedly checks it before requesting a certificate, preventing false 404 errors when NGINX is still starting.
 
 ## Common ACME Challenge Errors
 
 - `404 Not Found` when fetching the challenge file. Confirm that `certbot_webroot` is mounted in both containers and that the path resolves with `docker exec nginx ls -l /var/www/certbot/.well-known/acme-challenge`.
-- Missing `/.well-known/acme-challenge/` block in `default.conf`. Ensure the server config contains:
+- Missing `/.well-known/acme-challenge/` block in `default.conf`. The container entrypoint now injects this block automatically if it's absent, but verify the server config contains:
 ```nginx
 location /.well-known/acme-challenge/ {
     alias /var/www/certbot/;

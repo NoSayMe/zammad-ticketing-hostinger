@@ -1,5 +1,6 @@
 #!/bin/bash
 set -euo pipefail
+exec > >(tee -i deploy.log) 2>&1
 
 # Usage: deploy-script.sh <docker_registry> <remote_ip> <remote_domain> [certbot_email]
 DOCKER_REGISTRY=${1:-""}
@@ -47,7 +48,7 @@ fi
 if [ -n "$CERTBOT_EMAIL_ARG" ]; then
     CERTBOT_EMAIL="$CERTBOT_EMAIL_ARG"
 elif [ -n "${CERTBOT_EMAIL:-}" ]; then
-    CERTBOT_EMAIL="$CERTBOT_EMAIL"
+    : # value already set
 else
     if [ -f .env ]; then
         CERTBOT_EMAIL=$(grep '^CERTBOT_EMAIL=' .env | cut -d '=' -f2 || true)
@@ -64,13 +65,21 @@ if [ ! -d "$CERT_PATH/live/$REMOTE_DOMAIN" ]; then
     docker-compose up -d nginx
 
     echo "🔍 Pre-validating challenge path..."
-    docker run --rm -v certbot_webroot:/var/www/certbot busybox sh -c 'echo test > /var/www/certbot/test.txt'
-    sleep 2
-    if ! curl -fs "http://$REMOTE_DOMAIN/.well-known/acme-challenge/test.txt"; then
-        echo "❌ Challenge directory not reachable. Check DNS and firewall settings."
+    docker run --rm -v certbot_webroot:/var/www/certbot busybox sh -c 'echo ok > /var/www/certbot/.well-known-check.txt'
+    for i in $(seq 1 10); do
+        if curl -fs "http://$REMOTE_DOMAIN/.well-known/acme-challenge/.well-known-check.txt" >/dev/null; then
+            echo "✅ Challenge directory reachable"
+            break
+        fi
+        echo "Waiting for nginx to serve challenge path ($i/10)..."
+        sleep 3
+    done
+    if ! curl -fs "http://$REMOTE_DOMAIN/.well-known/acme-challenge/.well-known-check.txt" >/dev/null; then
+        echo "❌ Challenge directory not reachable after waiting"
+        docker-compose logs nginx | tail -n 20
         exit 1
     fi
-    docker run --rm -v certbot_webroot:/var/www/certbot busybox rm /var/www/certbot/test.txt
+    docker run --rm -v certbot_webroot:/var/www/certbot busybox rm /var/www/certbot/.well-known-check.txt
 
     echo "🔐 Requesting initial certificate..."
     docker run --rm \
