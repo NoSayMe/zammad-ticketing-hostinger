@@ -37,6 +37,31 @@ Below are common issues encountered when deploying the stack.
 - Verify the `postgres` container is running and reachable.
 - Confirm credentials in `.env` match the database environment variables.
 
+## Docker DNS failures
+If `docker pull` or `docker-compose up` fail with DNS errors like:
+
+```
+dial tcp: lookup registry-1.docker.io on 127.0.0.53:53: read: connection refused
+```
+
+the host's resolver may be unstable. Configure Docker to use external DNS
+servers:
+
+```bash
+sudo mkdir -p /etc/docker
+printf '{\n  "dns": ["8.8.8.8", "1.1.1.1"]\n}\n' | sudo tee /etc/docker/daemon.json
+sudo systemctl restart docker
+```
+
+Verify with:
+
+```bash
+docker pull busybox
+docker run --rm busybox nslookup google.com
+```
+
+Both commands should succeed without DNS errors.
+
 ---
 🔗 Back to [Main README](../README.md)  
 📚 See also: [First Run Checks](first-run-checks.md) | [Deployment](deployment.md)
