@@ -12,7 +12,9 @@ volumes:
 
 services:
   postgres:
-    build: ./services/postgres
+    build:
+      context: ./services
+      dockerfile: postgres/Dockerfile
     image: ${DOCKER_REGISTRY}/postgres:latest
     restart: unless-stopped
     environment:
@@ -25,7 +27,9 @@ services:
       - zammad-net
 
   elasticsearch:
-    build: ./services/elasticsearch
+    build:
+      context: ./services
+      dockerfile: elasticsearch/Dockerfile
     image: ${DOCKER_REGISTRY}/elasticsearch:latest
     restart: unless-stopped
     environment:
@@ -37,7 +41,9 @@ services:
       - zammad-net
 
   zammad:
-    build: ./services/zammad
+    build:
+      context: ./services
+      dockerfile: zammad/Dockerfile
     image: ${DOCKER_REGISTRY}/zammad:latest
     restart: unless-stopped
     depends_on:
@@ -56,7 +62,9 @@ services:
       - zammad-net
 
   nginx:
-    build: ./services/nginx
+    build:
+      context: ./services
+      dockerfile: nginx/Dockerfile
     image: ${DOCKER_REGISTRY}/nginx:latest
     restart: unless-stopped
     depends_on:
@@ -73,7 +81,9 @@ services:
       - zammad-net
 
   certbot:
-    build: ./services/certbot
+    build:
+      context: ./services
+      dockerfile: certbot/Dockerfile
     image: ${DOCKER_REGISTRY}/certbot:latest
     restart: unless-stopped
     volumes:

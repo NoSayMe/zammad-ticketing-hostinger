@@ -10,7 +10,7 @@ This guide explains how the NGINX reverse proxy and Certbot container work toget
 services/nginx/              # Dockerfile and config templates
 ```
 
-NGINX loads global settings from `services/nginx/nginx.conf` and includes all files under `/etc/nginx/conf.d/`. The main virtual host logic is rendered from `conf.d/default.conf.template` (HTTPS) or `conf.d/default.http.conf.template` when no certificate exists.
+NGINX loads global settings from `services/nginx/nginx.conf` and includes all files under `/etc/nginx/conf.d/`. During container start the entrypoint checks if `/etc/nginx/conf.d/default.conf` exists. If not, it generates one from `conf.d/default.conf.template` (HTTPS) or `conf.d/default.http.conf.template` when no certificate is present. This behaviour is handled by the helper script `ensure-config.sh` and lets you mount your own `default.conf` to override the template.
 
 ## Volume Mount Strategy
 
@@ -110,3 +110,4 @@ This command should report `syntax is ok` and `test is successful`.
 ---
 🔗 Back to [Main README](../README.md)
 📚 See also: [certbot.md](certbot.md) | [deployment](deployment.md)
+
