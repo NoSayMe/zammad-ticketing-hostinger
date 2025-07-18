@@ -8,6 +8,14 @@ REMOTE_HOST=${2:-"localhost"}
 REMOTE_DOMAIN=${3:-"localhost"}
 CERTBOT_EMAIL_ARG=${4:-""}
 
+# Compose project name controls Docker volume prefixes
+COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME:-$(basename "$PWD")}
+export COMPOSE_PROJECT_NAME
+
+# Derived volume names used by certbot and nginx
+CERTBOT_WEBROOT_VOLUME="${COMPOSE_PROJECT_NAME}_certbot_webroot"
+CERTBOT_CONF_VOLUME="${COMPOSE_PROJECT_NAME}_certbot_conf"
+
 echo "🚀 Deploying Zammad stack (registry: $DOCKER_REGISTRY, host: $REMOTE_HOST, domain: $REMOTE_DOMAIN)"
 
 # Install Docker if not present
@@ -25,9 +33,9 @@ if ! command -v docker-compose &>/dev/null; then
     sudo chmod +x /usr/local/bin/docker-compose
 fi
 
-# Ensure named Docker volumes exist
+# Ensure named Docker volumes exist with project prefix
 for volume in zammad_data postgres_data elastic_data certbot_conf certbot_webroot; do
-    docker volume create "$volume" >/dev/null || true
+    docker volume create "${COMPOSE_PROJECT_NAME}_${volume}" >/dev/null || true
 done
 
 # Replace registry placeholder if present
@@ -59,13 +67,13 @@ else
 fi
 
 # Bootstrap certificate if it doesn't already exist
-CERT_PATH=$(docker volume inspect certbot_conf -f '{{ .Mountpoint }}')
+CERT_PATH=$(docker volume inspect "$CERTBOT_CONF_VOLUME" -f '{{ .Mountpoint }}')
 if [ ! -d "$CERT_PATH/live/$REMOTE_DOMAIN" ]; then
     echo "📡 Starting nginx for ACME challenge..."
     docker-compose up -d nginx
 
     echo "🔍 Pre-validating challenge path..."
-    docker run --rm -v certbot_webroot:/var/www/certbot busybox sh -c 'echo ok > /var/www/certbot/.well-known-check.txt'
+    docker run --rm -v "$CERTBOT_WEBROOT_VOLUME":/var/www/certbot busybox sh -c 'echo ok > /var/www/certbot/.well-known-check.txt'
     for i in $(seq 1 10); do
         if curl -fs "http://$REMOTE_DOMAIN/.well-known/acme-challenge/.well-known-check.txt" >/dev/null; then
             echo "✅ Challenge directory reachable"
@@ -79,12 +87,12 @@ if [ ! -d "$CERT_PATH/live/$REMOTE_DOMAIN" ]; then
         docker-compose logs nginx | tail -n 20
         exit 1
     fi
-    docker run --rm -v certbot_webroot:/var/www/certbot busybox rm /var/www/certbot/.well-known-check.txt
+    docker run --rm -v "$CERTBOT_WEBROOT_VOLUME":/var/www/certbot busybox rm /var/www/certbot/.well-known-check.txt
 
     echo "🔐 Requesting initial certificate..."
     docker run --rm \
-      -v certbot_conf:/etc/letsencrypt \
-      -v certbot_webroot:/var/www/certbot \
+      -v "$CERTBOT_CONF_VOLUME":/etc/letsencrypt \
+      -v "$CERTBOT_WEBROOT_VOLUME":/var/www/certbot \
       certbot/certbot certonly --webroot \
       -w /var/www/certbot \
       -d "$REMOTE_DOMAIN" \
