@@ -54,14 +54,15 @@ If `docker logs nginx` shows an error like:
 host not found in upstream "zammad" in /etc/nginx/conf.d/default.conf:27
 ```
 
-the proxy container cannot resolve the `zammad` hostname. Ensure the
-Docker resolver is explicitly specified in the NGINX config. The
-provided `default.conf.template` includes:
+the proxy container cannot resolve the `zammad` hostname during the
+initial configuration test. The template now defers DNS resolution by
+using a variable in `proxy_pass`:
 
 ```nginx
 location /zammad/ {
     resolver 127.0.0.11;
-    proxy_pass http://zammad:3000/;
+    set $zammad_upstream "zammad:3000";
+    proxy_pass http://$zammad_upstream/;
     ...
 }
 ```
