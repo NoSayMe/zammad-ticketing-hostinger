@@ -101,3 +101,13 @@ services:
       done;'
     networks:
       - zammad-net
+
+  wiki:
+    container_name: wiki
+    build:
+      context: .
+      dockerfile: services/wiki/Dockerfile
+    image: ${DOCKER_REGISTRY}/wiki:latest
+    restart: unless-stopped
+    networks:
+      - zammad-net
