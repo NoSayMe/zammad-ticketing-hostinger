@@ -1,19 +1,19 @@
 site_name: Zammad Ticketing Wiki
 nav:
-  - Home: docs/index.md
-  - Deployment: docs/deployment.md
-  - CI/CD Pipeline: docs/ci-cd-pipeline.md
-  - Authentication: docs/authentication.md
-  - Email Integration: docs/email-integration.md
-  - Branding: docs/branding.md
-  - Certbot: docs/certbot.md
-  - Certbot Setup: docs/certbot-setup.md
-  - Certbot Debug: docs/certbot-debug.md
-  - NGINX Certbot: docs/nginx-certbot.md
-  - Secrets: docs/secrets.md
-  - First Run: docs/first-run.md
-  - First Run Checks: docs/first-run-checks.md
-  - Troubleshooting: docs/troubleshooting.md
-  - Zammad: docs/zammad.md
-  - Homepage: docs/homepage.md
-  - Agent Guide: docs/agent_prompt.md
+  - Home: index.md
+  - Deployment: deployment.md
+  - CI/CD Pipeline: ci-cd-pipeline.md
+  - Authentication: authentication.md
+  - Email Integration: email-integration.md
+  - Branding: branding.md
+  - Certbot: certbot.md
+  - Certbot Setup: certbot-setup.md
+  - Certbot Debug: certbot-debug.md
+  - NGINX Certbot: nginx-certbot.md
+  - Secrets: secrets.md
+  - First Run: first-run.md
+  - First Run Checks: first-run-checks.md
+  - Troubleshooting: troubleshooting.md
+  - Zammad: zammad.md
+  - Homepage: homepage.md
+  - Agent Guide: agent_prompt.md
