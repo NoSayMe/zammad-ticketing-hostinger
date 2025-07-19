@@ -60,7 +60,6 @@ using a variable in `proxy_pass`:
 
 ```nginx
 location /zammad/ {
-    resolver 127.0.0.11;
     set $zammad_upstream "zammad:3000";
     proxy_pass http://$zammad_upstream/;
     ...
