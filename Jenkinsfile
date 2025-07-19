@@ -23,6 +23,7 @@ pipeline {
                             def services = sh(script: "ls ${servicesDir}", returnStdout: true).trim().split('\n')
                             for (service in services) {
                                 if (fileExists("${servicesDir}/${service}/Dockerfile")) {
+                                    def buildContext = (service == 'wiki') ? '.' : servicesDir
                                     sh """
                                         if ! docker buildx version >/dev/null 2>&1; then
                                             echo '📦 Installing docker-buildx-plugin...'
@@ -30,7 +31,7 @@ pipeline {
                                             sudo apt-get install -y docker-buildx-plugin
                                         fi
                                         docker buildx create --use --name zammadbuilder || true
-                                        docker buildx build --load -t \$DOCKER_REGISTRY/${service}:latest -f ${servicesDir}/${service}/Dockerfile ${servicesDir}
+                                        docker buildx build --load -t \$DOCKER_REGISTRY/${service}:latest -f ${servicesDir}/${service}/Dockerfile ${buildContext}
                                         docker tag \$DOCKER_REGISTRY/${service}:latest \$DOCKER_REGISTRY/${service}:${BUILD_NUMBER}
                                     """
                                 }
