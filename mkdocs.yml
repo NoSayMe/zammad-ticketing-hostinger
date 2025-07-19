@@ -1,6 +1,7 @@
 site_name: Zammad Ticketing Wiki
 nav:
   - Home: index.md
+  - Main README: README.md
   - Deployment: deployment.md
   - CI/CD Pipeline: ci-cd-pipeline.md
   - Authentication: authentication.md

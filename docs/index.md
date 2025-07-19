@@ -1,4 +1,4 @@
-[← Back to Main README](../README.md)
+[← Back to Main README](README.md)
 
 # Project Wiki
 
@@ -6,4 +6,4 @@ This site provides a web-based view of the documentation stored in the `docs/` d
 Use the navigation sidebar to browse through the available guides.
 
 ---
-🔗 Back to [Main README](../README.md)
+🔗 Back to [Main README](README.md)
