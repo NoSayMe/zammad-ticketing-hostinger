@@ -33,6 +33,20 @@ Below are common issues encountered when deploying the stack.
   curl http://<domain>/.well-known/acme-challenge/test.txt
   ```
 
+## Default NGINX page instead of homepage
+If navigating to your domain shows the "Welcome to nginx!" page, the base image's
+`default.conf` may have overridden the project configuration. Rebuild the `nginx`
+service to ensure `/etc/nginx/conf.d/default.conf` is generated from
+`default.conf.template`:
+
+```bash
+docker-compose build nginx
+docker-compose up -d nginx
+```
+
+After rebuilding, visiting `http://<domain>` should display the custom
+`index.html` included in `services/nginx/html/`.
+
 ## Database connection errors
 - Verify the `postgres` container is running and reachable.
 - Confirm credentials in `.env` match the database environment variables.
