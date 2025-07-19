@@ -9,11 +9,10 @@ VOLUME ["/opt/zammad"]
 # wrapper ensures critical configs are owned by root before starting
 COPY zammad/entrypoint.sh /usr/local/bin/entrypoint.sh
 
-# Ensure the script is executable. The base image defaults to a non-root user,
-# so temporarily switch to root for the permission change.
+# Ensure the script is executable and keep running as root so the wrapper can
+# adjust ownership of configuration files on startup.
 USER root
 RUN chmod +x /usr/local/bin/entrypoint.sh
-USER zammad
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["/docker-entrypoint.sh"]

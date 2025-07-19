@@ -9,19 +9,16 @@
 
 Zammad provides the ticketing UI and API. The container is built from `services/zammad/Dockerfile` and depends on the `postgres` and `elasticsearch` services.
 
-The base image runs as the `zammad` user. When the custom `entrypoint.sh` script
-is added, the Dockerfile temporarily switches to `root` to mark the script as
-executable and then switches back:
+The official image runs as `root`. We add a wrapper script to fix file
+ownership issues before launching the bundled entrypoint:
 
 ```dockerfile
 COPY zammad/entrypoint.sh /usr/local/bin/entrypoint.sh
 USER root
 RUN chmod +x /usr/local/bin/entrypoint.sh
-USER zammad
 ```
-
-This ensures the script has the right permissions during build without changing
-the default runtime user.
+The container remains running as `root` so the wrapper can adjust ownership of
+`/opt/zammad/config/database.yml` on startup.
 
 ## Data Volume
 
