@@ -1,6 +1,6 @@
-[← Back to Main README](../README.md)
+[← Back to Main README](README/index.md)
 
-> **Prerequisite:** Ensure the [Requirements & Prerequisites](../README.md#-requirements--prerequisites) are met.
+> **Prerequisite:** Ensure the [Requirements & Prerequisites](README/index.md#-requirements--prerequisites) are met.
 
 # Wiki Service
 
@@ -26,5 +26,5 @@ docker logs wiki
 ```
 
 ---
-🔗 Back to [Main README](../README.md)
+🔗 Back to [Main README](README/index.md)
 📚 See also: [Homepage](homepage.md) | [First Run Checks](first-run-checks.md)

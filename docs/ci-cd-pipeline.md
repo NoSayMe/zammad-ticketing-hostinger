@@ -1,6 +1,6 @@
-[← Back to Main README](../README.md)
+[← Back to Main README](README/index.md)
 
-> **Prerequisite:** Ensure the [Requirements & Prerequisites](../README.md#-requirements--prerequisites) are satisfied. Jenkins must already be installed.
+> **Prerequisite:** Ensure the [Requirements & Prerequisites](README/index.md#-requirements--prerequisites) are satisfied. Jenkins must already be installed.
 
 # Jenkins CI/CD Pipeline
 
@@ -84,5 +84,5 @@ A successful run looks similar to:
 - The build stage only runs if a `services/` directory with Dockerfiles exists. If no custom services are needed you will only see pull and deploy steps.
 
 ---
-🔗 Back to [Main README](../README.md)  
+🔗 Back to [Main README](README/index.md)  
 📚 See also: [Deployment](deployment.md) | [Certbot](certbot.md) | [Secrets](secrets.md)

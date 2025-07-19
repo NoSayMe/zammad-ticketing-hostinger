@@ -1,6 +1,6 @@
-[← Back to Main README](../README.md)
+[← Back to Main README](README/index.md)
 
-> **Prerequisite:** Review the [Requirements & Prerequisites](../README.md#-requirements--prerequisites). Jenkins manages these secrets externally.
+> **Prerequisite:** Review the [Requirements & Prerequisites](README/index.md#-requirements--prerequisites). Jenkins manages these secrets externally.
 
 # Jenkins Secrets Index
 
@@ -26,5 +26,5 @@ The following credential IDs are referenced by the deployment pipeline. Values a
 | `zammad-admin-password`                 | Initial admin password |
 
 ---
-🔗 Back to [Main README](../README.md)  
+🔗 Back to [Main README](README/index.md)  
 📚 See also: [CI/CD](ci-cd-pipeline.md) | [Deployment](deployment.md)

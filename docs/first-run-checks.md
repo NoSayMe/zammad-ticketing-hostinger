@@ -1,6 +1,6 @@
-[← Back to Main README](../README.md)
+[← Back to Main README](README/index.md)
 
-> **Prerequisite:** Ensure your environment meets the [Requirements & Prerequisites](../README.md#-requirements--prerequisites).
+> **Prerequisite:** Ensure your environment meets the [Requirements & Prerequisites](README/index.md#-requirements--prerequisites).
 
 # First Run Checks & Troubleshooting Guide
 
@@ -89,5 +89,5 @@ zammad run rails c
 ```
 
 ---
-🔗 Back to [Main README](../README.md)  
+🔗 Back to [Main README](README/index.md)  
 📚 See also: [Troubleshooting](troubleshooting.md) | [Deployment](deployment.md)

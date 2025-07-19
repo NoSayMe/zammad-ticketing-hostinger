@@ -1,6 +1,6 @@
-[← Back to Main README](../README.md)
+[← Back to Main README](README/index.md)
 
-> **Prerequisite:** Ensure the [Requirements & Prerequisites](../README.md#-requirements--prerequisites) are in place.
+> **Prerequisite:** Ensure the [Requirements & Prerequisites](README/index.md#-requirements--prerequisites) are in place.
 
 # Homepage
 
@@ -14,5 +14,5 @@ Links are provided to:
 Edit `index.html` and rebuild the `nginx` service to change the content.
 
 ---
-🔗 Back to [Main README](../README.md)  
+🔗 Back to [Main README](README/index.md)  
 📚 See also: [Branding](branding.md) | [Deployment](deployment.md)

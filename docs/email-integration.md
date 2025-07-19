@@ -1,6 +1,6 @@
-[← Back to Main README](../README.md)
+[← Back to Main README](README/index.md)
 
-> **Prerequisite:** Review the [Requirements & Prerequisites](../README.md#-requirements--prerequisites). Azure tenant admin access is required for mailbox configuration.
+> **Prerequisite:** Review the [Requirements & Prerequisites](README/index.md#-requirements--prerequisites). Azure tenant admin access is required for mailbox configuration.
 
 # Email Integration
 
@@ -21,5 +21,5 @@ Microsoft 365 OAuth2 credentials and SMTP settings are provided via the followin
 Configure these secrets in Jenkins and reference them in the pipeline so the Zammad container can authenticate with Microsoft 365.
 
 ---
-🔗 Back to [Main README](../README.md)  
+🔗 Back to [Main README](README/index.md)  
 📚 See also: [Authentication](authentication.md) | [Deployment](deployment.md) | [Secrets](secrets.md)

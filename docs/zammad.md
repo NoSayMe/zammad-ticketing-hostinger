@@ -1,6 +1,6 @@
-[← Back to Main README](../README.md)
+[← Back to Main README](README/index.md)
 
-> **Prerequisite:** Ensure the [Requirements & Prerequisites](../README.md#-requirements--prerequisites) are fulfilled before deploying Zammad.
+> **Prerequisite:** Ensure the [Requirements & Prerequisites](README/index.md#-requirements--prerequisites) are fulfilled before deploying Zammad.
 
 > **⚠️ Sensitive Keys**
 > All required keys and secrets for this integration are injected securely via Jenkins and are not stored in this repository.
@@ -70,5 +70,5 @@ If the service fails to start:
 - Ensure permissions on the `zammad_data` volume allow write access.
 
 ---
-🔗 Back to [Main README](../README.md)  
+🔗 Back to [Main README](README/index.md)  
 📚 See also: [Deployment](deployment.md) | [First Run Checks](first-run-checks.md)

@@ -1,6 +1,6 @@
-[← Back to Main README](../README.md)
+[← Back to Main README](README/index.md)
 
-> **Prerequisite:** Review the [Requirements & Prerequisites](../README.md#-requirements--prerequisites) before customizing branding.
+> **Prerequisite:** Review the [Requirements & Prerequisites](README/index.md#-requirements--prerequisites) before customizing branding.
 
 # Branding
 
@@ -15,5 +15,5 @@ Zammad supports theming and custom branding through its admin interface. Upload 
 The landing page served by NGINX is located at `services/nginx/html/index.html`. Edit this file and rebuild the `nginx` service to apply changes.
 
 ---
-🔗 Back to [Main README](../README.md)  
+🔗 Back to [Main README](README/index.md)  
 📚 See also: [Deployment](deployment.md) | [Homepage](homepage.md)

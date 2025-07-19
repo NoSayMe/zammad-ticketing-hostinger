@@ -1,6 +1,6 @@
-[← Back to Main README](../README.md)
+[← Back to Main README](README/index.md)
 
-> **Prerequisite:** Review the [Requirements & Prerequisites](../README.md#-requirements--prerequisites). No extra dependencies beyond a configured domain.
+> **Prerequisite:** Review the [Requirements & Prerequisites](README/index.md#-requirements--prerequisites). No extra dependencies beyond a configured domain.
 
 # NGINX and Certbot Integration
 
@@ -190,5 +190,5 @@ The full NGINX configuration is stored in [`services/nginx/default.conf.template
 - [`services/nginx/nginx.conf`](../services/nginx/nginx.conf)
 
 ---
-🔗 Back to [Main README](../README.md)
+🔗 Back to [Main README](README/index.md)
 📚 See also: [certbot-debug](certbot-debug.md) | [Deployment](deployment.md) | [CI/CD](ci-cd-pipeline.md) | [Secrets](secrets.md)
