@@ -103,6 +103,7 @@ All additional guides are stored in the [`docs/`](docs/) directory:
 - **[first-run.md](docs/first-run.md)** – Troubleshoot common first-run errors, including [Certbot failures](docs/first-run.md#-common-certbot-failures-and-how-to-fix-them).
 - **[troubleshooting.md](docs/troubleshooting.md)** – Accessing logs, common errors.
 - **[zammad.md](docs/zammad.md)** – Zammad service and admin setup.
+- **[wiki.md](docs/wiki.md)** – Container serving the documentation at `/wiki`.
 
 These documents will grow alongside the project as more features (like Microsoft 365 integration or n8n workflows) are added.
 
