@@ -47,6 +47,32 @@ docker-compose up -d nginx
 After rebuilding, visiting `http://<domain>` should display the custom
 `index.html` included in `services/nginx/html/`.
 
+## NGINX fails with `"host not found in upstream"`
+If `docker logs nginx` shows an error like:
+
+```
+host not found in upstream "zammad" in /etc/nginx/conf.d/default.conf:27
+```
+
+the proxy container cannot resolve the `zammad` hostname. Ensure the
+Docker resolver is explicitly specified in the NGINX config. The
+provided `default.conf.template` includes:
+
+```nginx
+location /zammad/ {
+    resolver 127.0.0.11;
+    proxy_pass http://zammad:3000/;
+    ...
+}
+```
+
+Rebuild the `nginx` image and restart the service:
+
+```bash
+docker-compose build nginx
+docker-compose up -d nginx
+```
+
 ## Database connection errors
 - Verify the `postgres` container is running and reachable.
 - Confirm credentials in `.env` match the database environment variables.
