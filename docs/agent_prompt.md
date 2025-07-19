@@ -1,6 +1,6 @@
-[← Back to Main README](../README.md)
+[← Back to Main README](README/index.md)
 
-> **Prerequisite:** Familiarize yourself with the [Requirements & Prerequisites](../README.md#-requirements--prerequisites) before contributing.
+> **Prerequisite:** Familiarize yourself with the [Requirements & Prerequisites](README/index.md#-requirements--prerequisites) before contributing.
 
 You are contributing to an open-source project designed to create a secure, modular, and easy-to-deploy ticketing and automation platform based on Zammad and Docker. This project is being actively built to serve small to mid-sized organizations and educational purposes.
 
@@ -162,5 +162,5 @@ Work in the following order:
 Continue with the next step by checking the `/docs` directory and creating/expanding a service if it’s not complete.
 
 ---
-🔗 Back to [Main README](../README.md)  
+🔗 Back to [Main README](README/index.md)  
 📚 See also: [Deployment](deployment.md) | [CI/CD](ci-cd-pipeline.md)

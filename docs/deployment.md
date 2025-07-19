@@ -1,6 +1,6 @@
-[← Back to Main README](../README.md)
+[← Back to Main README](README/index.md)
 
-> **Prerequisite:** Review the [Requirements & Prerequisites](../README.md#-requirements--prerequisites). No additional setup is required for this guide.
+> **Prerequisite:** Review the [Requirements & Prerequisites](README/index.md#-requirements--prerequisites). No additional setup is required for this guide.
 
 # Deployment Guide – Zammad Docker Stack
 
@@ -68,5 +68,5 @@ These volumes are defined in `docker-compose.yaml` and ensure data is retained a
 5. After the stack is online, follow the [First Run Checks](first-run-checks.md) guide to verify services and troubleshoot any issues.
 
 ---
-🔗 Back to [Main README](../README.md)  
+🔗 Back to [Main README](README/index.md)  
 📚 See also: [CI/CD](ci-cd-pipeline.md) | [Certbot](certbot.md) | [Secrets](secrets.md) | [Zammad](zammad.md)

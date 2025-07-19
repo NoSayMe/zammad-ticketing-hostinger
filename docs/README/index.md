@@ -23,7 +23,7 @@ This repository represents my first step into the world of open-source collabora
    - A record must point to your server's IP.
 3. **Jenkins CI/CD**
    - Handles deployment and injects secrets such as SSH keys, domain details and DockerHub credentials.
-   - Prepare the Jenkins host for SSH as described in [Jenkins SSH Setup on Host Machine](first-run.md#-jenkins-ssh-setup-on-host-machine).
+   - Prepare the Jenkins host for SSH as described in [Jenkins SSH Setup on Host Machine](../first-run.md#-jenkins-ssh-setup-on-host-machine).
 4. **Azure Tenant with Admin Access**
    - Required for Microsoft 365 shared mailboxes, Entra ID authentication and Teams/SharePoint integrations.
 
@@ -69,7 +69,7 @@ In the longer term, I'm enthusiastic about exploring integrations with **AI agen
    ```bash
    docker-compose up -d
    ```
-4. Visit `http://localhost` to see the landing page. For production deployment follow the [Deployment guide](deployment.md).
+4. Visit `http://localhost` to see the landing page. For production deployment follow the [Deployment guide](../deployment.md).
 
 ## 📚 Learning Together
 
@@ -88,22 +88,22 @@ Contributions are welcome! Fork the repository, create a feature branch and open
 
 ## 📖 Documentation
 
-All additional guides are stored in the [docs/](./) directory:
+All additional guides are stored in the [docs/](../) directory:
 
-- **[deployment.md](deployment.md)** – step-by-step Docker setup and environments.
-- **[ci-cd-pipeline.md](ci-cd-pipeline.md)** – Jenkins and automation logic.
-- **[authentication.md](authentication.md)** – LDAP, Entra ID, Microsoft login setup.
-- **[email-integration.md](email-integration.md)** – Outlook, shared mailbox config.
-- **[branding.md](branding.md)** – Customization and UI theming.
-- **[certbot.md](certbot.md)** – HTTPS setup with Certbot.
-- **[certbot-setup.md](certbot-setup.md)** – How ACME HTTP-01 works and troubleshooting tips.
-- **[certbot-debug.md](certbot-debug.md)** – Run a standalone Certbot container for manual testing.
-- **[nginx-certbot.md](nginx-certbot.md)** – NGINX proxy configuration and Cloudflare notes.
-- **[secrets.md](secrets.md)** – Overview of Jenkins credential IDs.
-- **[first-run.md](first-run.md)** – Troubleshoot common first-run errors, including [Certbot failures](first-run.md#-common-certbot-failures-and-how-to-fix-them).
-- **[troubleshooting.md](troubleshooting.md)** – Accessing logs, common errors.
-- **[zammad.md](zammad.md)** – Zammad service and admin setup.
-- **[wiki.md](wiki.md)** – Container serving the documentation at `/wiki`.
+- **[deployment.md](../deployment.md)** – step-by-step Docker setup and environments.
+- **[ci-cd-pipeline.md](../ci-cd-pipeline.md)** – Jenkins and automation logic.
+- **[authentication.md](../authentication.md)** – LDAP, Entra ID, Microsoft login setup.
+- **[email-integration.md](../email-integration.md)** – Outlook, shared mailbox config.
+- **[branding.md](../branding.md)** – Customization and UI theming.
+- **[certbot.md](../certbot.md)** – HTTPS setup with Certbot.
+- **[certbot-setup.md](../certbot-setup.md)** – How ACME HTTP-01 works and troubleshooting tips.
+- **[certbot-debug.md](../certbot-debug.md)** – Run a standalone Certbot container for manual testing.
+- **[nginx-certbot.md](../nginx-certbot.md)** – NGINX proxy configuration and Cloudflare notes.
+- **[secrets.md](../secrets.md)** – Overview of Jenkins credential IDs.
+- **[first-run.md](../first-run.md)** – Troubleshoot common first-run errors, including [Certbot failures](../first-run.md#-common-certbot-failures-and-how-to-fix-them).
+- **[troubleshooting.md](../troubleshooting.md)** – Accessing logs, common errors.
+- **[zammad.md](../zammad.md)** – Zammad service and admin setup.
+- **[wiki.md](../wiki.md)** – Container serving the documentation at `/wiki`.
 
 These documents will grow alongside the project as more features (like Microsoft 365 integration or n8n workflows) are added.
 

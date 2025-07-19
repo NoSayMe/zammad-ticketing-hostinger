@@ -1,4 +1,4 @@
-[← Back to Main README](../README.md)
+[← Back to Main README](README/index.md)
 
 # Certbot Debugging Guide
 
@@ -23,5 +23,5 @@ curl http://yourdomain.com/.well-known/acme-challenge/<token>
 Press `Ctrl+C` to stop the script or let Certbot finish. No real certificate is issued because the `--dry-run` option uses the Let's Encrypt staging environment.
 
 ---
-🔗 Back to [Main README](../README.md)
+🔗 Back to [Main README](README/index.md)
 📚 See also: [certbot.md](certbot.md) | [certbot-setup.md](certbot-setup.md)

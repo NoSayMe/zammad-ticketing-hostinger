@@ -1,6 +1,6 @@
-[← Back to Main README](../README.md)
+[← Back to Main README](README/index.md)
 
-> **Prerequisite:** Ensure the [Requirements & Prerequisites](../README.md#-requirements--prerequisites) are met.
+> **Prerequisite:** Ensure the [Requirements & Prerequisites](README/index.md#-requirements--prerequisites) are met.
 
 # First Run Guide
 
@@ -115,5 +115,5 @@ Then reload NGINX with `nginx -t && nginx -s reload`.
 If any step fails, fix the issue before launching Certbot again.
 
 ---
-🔗 Back to [Main README](../README.md)
+🔗 Back to [Main README](README/index.md)
 📚 See also: [First Run Checks](first-run-checks.md) | [Deployment](deployment.md) | [Troubleshooting](troubleshooting.md)

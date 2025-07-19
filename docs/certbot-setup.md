@@ -1,4 +1,4 @@
-[← Back to Main README](../README.md)
+[← Back to Main README](README/index.md)
 
 > **Prerequisite:** Ensure your domain's DNS A record points to the VPS IP and ports 80/443 are reachable.
 
@@ -49,5 +49,5 @@ curl http://<domain>/.well-known/acme-challenge/test.txt
 A successful response confirms that DNS and NGINX are correctly configured.
 
 ---
-🔗 Back to [Main README](../README.md)
+🔗 Back to [Main README](README/index.md)
 📚 See also: [certbot.md](certbot.md) | [First Run](first-run.md)

@@ -1,4 +1,4 @@
-[← Back to Main README](../README.md)
+[← Back to Main README](README/index.md)
 
 # NGINX and Certbot Configuration
 
@@ -115,6 +115,6 @@ nginx -t
 This command should report `syntax is ok` and `test is successful`.
 
 ---
-🔗 Back to [Main README](../README.md)
+🔗 Back to [Main README](README/index.md)
 📚 See also: [certbot.md](certbot.md) | [deployment](deployment.md)
 

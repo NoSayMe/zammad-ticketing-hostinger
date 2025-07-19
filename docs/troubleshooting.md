@@ -1,6 +1,6 @@
-[← Back to Main README](../README.md)
+[← Back to Main README](README/index.md)
 
-> **Prerequisite:** Confirm the [Requirements & Prerequisites](../README.md#-requirements--prerequisites) are met before diagnosing issues.
+> **Prerequisite:** Confirm the [Requirements & Prerequisites](README/index.md#-requirements--prerequisites) are met before diagnosing issues.
 
 # Troubleshooting
 
@@ -120,5 +120,5 @@ docker run --rm busybox nslookup google.com
 Both commands should succeed without DNS errors.
 
 ---
-🔗 Back to [Main README](../README.md)  
+🔗 Back to [Main README](README/index.md)  
 📚 See also: [First Run Checks](first-run-checks.md) | [Deployment](deployment.md)
