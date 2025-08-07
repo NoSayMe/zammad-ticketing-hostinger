@@ -64,6 +64,12 @@ services:
       - .env
     volumes:
       - zammad_data:/opt/zammad
+    healthcheck:
+      test: ["CMD-SHELL", "zammad run rails r 'ActiveRecord::Base.connection.active?'" ]
+      interval: 10s
+      timeout: 10s
+      retries: 30
+      start_period: 60s
     networks:
       - zammad-net
 
