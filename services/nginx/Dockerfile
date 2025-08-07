@@ -11,8 +11,7 @@ RUN rm -f /etc/nginx/conf.d/default.conf \
          echo "✅ Using provided nginx.conf"; \
          cp /tmp/nginx/nginx.conf /etc/nginx/nginx.conf; \
        else \
-         echo "⚠️  nginx.conf not found, using default.conf.template"; \
-         cp /tmp/nginx/default.conf.template /etc/nginx/nginx.conf; \
+         echo "⚠️  nginx.conf not found, keeping base image default"; \
        fi \
     && cp /tmp/nginx/default.conf.template /etc/nginx/conf.d/default.conf.template \
     && cp /tmp/nginx/default.http.conf.template /etc/nginx/conf.d/default.http.conf.template \
