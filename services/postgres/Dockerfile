@@ -2,7 +2,7 @@
 FROM postgres:15-alpine
 
 # Set default environment variables
-ENV POSTGRES_DB=zammad \
+ENV POSTGRES_DB=zammad_production \
     POSTGRES_USER=zammad \
     POSTGRES_PASSWORD=zammad
 

@@ -23,6 +23,9 @@ USER zammad
 This ensures the script has the right permissions during build without changing
 the default runtime user.
 
+- Default database is `zammad_production` and credentials default to `zammad`/`zammad` for local testing. These can be overridden via `.env`.
+- Local quick test URL: `http://localhost/zammad/`.
+
 ## Data Volume
 
 - **`zammad_data`** mounted at `/opt/zammad`
