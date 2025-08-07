@@ -109,7 +109,51 @@ pipeline {
                     ]) {
                         sh '''
                             ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no "$REMOTE_USER@$REMOTE_HOST" \
-                            "docker exec zammad zammad run rake \"zammad:make_admin[$ZAMMAD_ADMIN_EMAIL,$ZAMMAD_ADMIN_PASSWORD]\""
+                              env ZAMMAD_ADMIN_EMAIL="$ZAMMAD_ADMIN_EMAIL" ZAMMAD_ADMIN_PASSWORD="$ZAMMAD_ADMIN_PASSWORD" bash -s <<'REMOTE_EOF'
+set -e
+
+echo "Waiting for zammad container to be running..."
+for i in $(seq 1 60); do
+  status=$(docker inspect -f '{{.State.Status}}' zammad 2>/dev/null || true)
+  restarting=$(docker inspect -f '{{.State.Restarting}}' zammad 2>/dev/null || echo false)
+  if [ "$status" = "running" ] && [ "$restarting" = "false" ]; then
+    echo "Container is running"
+    break
+  fi
+  echo "Status: $status (restarting=$restarting) - retry $i/60"
+  sleep 5
+
+done
+
+# Prefer healthcheck if present
+if docker inspect -f '{{if .State.Health}}{{.State.Health.Status}}{{end}}' zammad | grep -q .; then
+  echo "Waiting for container health to be 'healthy'..."
+  for i in $(seq 1 120); do
+    health=$(docker inspect -f '{{.State.Health.Status}}' zammad 2>/dev/null || true)
+    if [ "$health" = "healthy" ]; then
+      echo "Health is healthy"
+      break
+    fi
+    echo "Health: $health - retry $i/120"
+    sleep 5
+  done
+else
+  echo "No healthcheck; probing Rails readiness..."
+  for i in $(seq 1 120); do
+    if docker exec zammad zammad run rails r 'ActiveRecord::Base.connection.active?' >/dev/null 2>&1; then
+      echo "Zammad app is ready"
+      break
+    fi
+    sleep 5
+  done
+fi
+
+docker exec zammad zammad run rake "zammad:make_admin[$ZAMMAD_ADMIN_EMAIL,$ZAMMAD_ADMIN_PASSWORD]" || {
+  echo "Admin init failed; last 200 lines of zammad logs:" >&2
+  docker logs --tail 200 zammad >&2
+  exit 1
+}
+REMOTE_EOF
                         '''
                     }
                 }
