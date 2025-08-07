@@ -64,12 +64,16 @@ In the longer term, I'm enthusiastic about exploring integrations with **AI agen
    git clone https://github.com/NoSayMe/zammad-ticketing-hostinger.git
    cd zammad-ticketing-hostinger
    ```
-2. Copy `.env.example` to `.env` and adjust the values for your environment.
+2. Create your environment file from the example:
+   ```bash
+   cp .env.example .env
+   ```
+   The defaults let you run locally without extra setup.
 3. Start the stack locally:
    ```bash
-   docker-compose up -d
+   docker-compose up -d --build
    ```
-4. Visit `http://localhost` to see the landing page. For production deployment follow the [Deployment guide](docs/deployment.md).
+4. Visit `http://localhost` to see the landing page and `http://localhost/zammad/` for Zammad. For production deployment follow the [Deployment guide](docs/deployment.md).
 
 ## 📚 Learning Together
 
@@ -83,8 +87,6 @@ Whether you're a seasoned developer, an enthusiastic learner, or simply passiona
 * Configure Jenkins pipeline and deployment scripts.
 * Develop robust documentation for ease of use.
 * Enhance and test Microsoft 365 integration features.
-
-Contributions are welcome! Fork the repository, create a feature branch and open a pull request when you're ready. You can also open issues to discuss ideas or problems.
 
 ## 📖 Documentation
 

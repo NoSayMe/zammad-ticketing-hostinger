@@ -38,19 +38,26 @@ for volume in zammad_data postgres_data elastic_data certbot_conf certbot_webroo
     docker volume create "${COMPOSE_PROJECT_NAME}_${volume}" >/dev/null || true
 done
 
-# Replace registry placeholder if present
-if grep -q "\${DOCKER_REGISTRY}" docker-compose.yaml 2>/dev/null; then
-    sed -i "s|\${DOCKER_REGISTRY}|$DOCKER_REGISTRY|g" docker-compose.yaml
-fi
+# Helper to ensure a key=value exists/updated in .env
+ensure_env() {
+  local key="$1"; shift
+  local value="$1"; shift || true
+  if [ -f .env ]; then
+    if grep -q "^${key}=" .env; then
+      sed -i "s|^${key}=.*|${key}=${value}|" .env
+    else
+      echo "${key}=${value}" >> .env
+    fi
+  else
+    echo "${key}=${value}" > .env
+  fi
+}
 
-# Replace domain placeholder if present
-if grep -q "\${REMOTE_DOMAIN}" docker-compose.yaml 2>/dev/null; then
-    sed -i "s|\${REMOTE_DOMAIN}|$REMOTE_DOMAIN|g" docker-compose.yaml
+# Write critical runtime values to .env so compose resolves ${VAR:-default}
+if [ -n "$DOCKER_REGISTRY" ]; then
+  ensure_env DOCKER_REGISTRY "$DOCKER_REGISTRY"
 fi
-
-if grep -q "\${REMOTE_DOMAIN}" .env 2>/dev/null; then
-    sed -i "s|\${REMOTE_DOMAIN}|$REMOTE_DOMAIN|g" .env
-fi
+ensure_env REMOTE_DOMAIN "$REMOTE_DOMAIN"
 
 # Determine email for Certbot
 if [ -n "$CERTBOT_EMAIL_ARG" ]; then
@@ -60,10 +67,12 @@ elif [ -n "${CERTBOT_EMAIL:-}" ]; then
 else
     if [ -f .env ]; then
         CERTBOT_EMAIL=$(grep '^CERTBOT_EMAIL=' .env | cut -d '=' -f2 || true)
-    else
-        echo "❌ CERTBOT_EMAIL not set. Provide as argument or via CERTBOT_EMAIL env variable."
-        exit 1
     fi
+fi
+
+# If we have a certbot email now, persist it to .env (optional)
+if [ -n "${CERTBOT_EMAIL:-}" ]; then
+  ensure_env CERTBOT_EMAIL "$CERTBOT_EMAIL"
 fi
 
 # Bootstrap certificate if it doesn't already exist
@@ -91,24 +100,28 @@ if [ ! -d "$CERT_PATH/live/$REMOTE_DOMAIN" ]; then
     fi
     docker run --rm -v "$CERTBOT_WEBROOT_VOLUME":/var/www/certbot busybox rm /var/www/certbot/.well-known/acme-challenge/.well-known-check.txt
 
-    echo "🔐 Requesting initial certificate..."
-    docker run --rm \
-      -v "$CERTBOT_CONF_VOLUME":/etc/letsencrypt \
-      -v "$CERTBOT_WEBROOT_VOLUME":/var/www/certbot \
-      certbot/certbot certonly --webroot \
-      -w /var/www/certbot \
-      -d "$REMOTE_DOMAIN" \
-      --non-interactive \
-      --agree-tos \
-      --email "$CERTBOT_EMAIL" \
-      --no-eff-email
+    if [ -n "${CERTBOT_EMAIL:-}" ]; then
+      echo "🔐 Requesting initial certificate..."
+      docker run --rm \
+        -v "$CERTBOT_CONF_VOLUME":/etc/letsencrypt \
+        -v "$CERTBOT_WEBROOT_VOLUME":/var/www/certbot \
+        certbot/certbot certonly --webroot \
+        -w /var/www/certbot \
+        -d "$REMOTE_DOMAIN" \
+        --non-interactive \
+        --agree-tos \
+        --email "$CERTBOT_EMAIL" \
+        --no-eff-email
 
-    echo "🔄 Restarting nginx to apply HTTPS config"
-    docker-compose restart nginx
+      echo "🔄 Restarting nginx to apply HTTPS config"
+      docker-compose restart nginx
+    else
+      echo "ℹ️ Skipping initial certificate request (no CERTBOT_EMAIL provided)"
+    fi
 fi
 
 # Pull and run containers
-docker-compose pull
+docker-compose pull || true
 docker-compose up -d
 
 docker-compose ps

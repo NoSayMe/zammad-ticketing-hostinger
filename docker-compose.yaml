@@ -16,12 +16,12 @@ services:
     build:
       context: ./services
       dockerfile: postgres/Dockerfile
-    image: ${DOCKER_REGISTRY}/postgres:latest
+    image: ${DOCKER_REGISTRY:-local}/postgres:latest
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-zammad_production}
+      POSTGRES_USER: ${POSTGRES_USER:-zammad}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-zammad}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -32,11 +32,11 @@ services:
     build:
       context: ./services
       dockerfile: elasticsearch/Dockerfile
-    image: ${DOCKER_REGISTRY}/elasticsearch:latest
+    image: ${DOCKER_REGISTRY:-local}/elasticsearch:latest
     restart: unless-stopped
     environment:
       discovery.type: single-node
-      ES_JAVA_OPTS: ${ES_JAVA_OPTS}
+      ES_JAVA_OPTS: ${ES_JAVA_OPTS:-"-Xms512m -Xmx512m"}
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
     networks:
@@ -47,16 +47,19 @@ services:
     build:
       context: ./services
       dockerfile: zammad/Dockerfile
-    image: ${DOCKER_REGISTRY}/zammad:latest
+    image: ${DOCKER_REGISTRY:-local}/zammad:latest
     restart: unless-stopped
     depends_on:
       - postgres
       - elasticsearch
     environment:
       POSTGRESQL_HOST: postgres
+      POSTGRESQL_USER: ${POSTGRES_USER:-zammad}
+      POSTGRESQL_PASS: ${POSTGRES_PASSWORD:-zammad}
+      POSTGRESQL_DB: ${POSTGRES_DB:-zammad_production}
       ELASTICSEARCH_HOST: elasticsearch
       ZAMMAD_RAILS_TRUSTED_PROXIES: 0.0.0.0/0
-      ZAMMAD_FQDN: ${REMOTE_DOMAIN}
+      ZAMMAD_FQDN: ${REMOTE_DOMAIN:-localhost}
     env_file:
       - .env
     volumes:
@@ -69,12 +72,12 @@ services:
     build:
       context: ./services
       dockerfile: nginx/Dockerfile
-    image: ${DOCKER_REGISTRY}/nginx:latest
+    image: ${DOCKER_REGISTRY:-local}/nginx:latest
     restart: unless-stopped
     depends_on:
       - zammad
     environment:
-      REMOTE_DOMAIN: ${REMOTE_DOMAIN}
+      REMOTE_DOMAIN: ${REMOTE_DOMAIN:-localhost}
     volumes:
       - certbot_conf:/etc/letsencrypt
       - certbot_webroot:/var/www/certbot
@@ -89,7 +92,7 @@ services:
     build:
       context: ./services
       dockerfile: certbot/Dockerfile
-    image: ${DOCKER_REGISTRY}/certbot:latest
+    image: ${DOCKER_REGISTRY:-local}/certbot:latest
     restart: unless-stopped
     volumes:
       - certbot_conf:/etc/letsencrypt
@@ -107,7 +110,7 @@ services:
     build:
       context: .
       dockerfile: services/wiki/Dockerfile
-    image: ${DOCKER_REGISTRY}/wiki:latest
+    image: ${DOCKER_REGISTRY:-local}/wiki:latest
     restart: unless-stopped
     networks:
       - zammad-net
