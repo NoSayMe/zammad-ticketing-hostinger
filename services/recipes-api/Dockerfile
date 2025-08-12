@@ -5,7 +5,9 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-COPY services/recipes-api/requirements.txt /tmp/requirements.txt
+#CI uses build context: services/
+COPY recipes-api/requirements.txt /tmp/requirements.txt
+
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
 COPY services/recipes-api/app /app/app
