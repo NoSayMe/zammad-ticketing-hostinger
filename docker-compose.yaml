@@ -15,6 +15,7 @@ services:
     container_name: postgres
     build:
       context: ./services
+    
       dockerfile: postgres/Dockerfile
     image: ${DOCKER_REGISTRY:-local}/postgres:latest
     restart: unless-stopped
@@ -24,6 +25,31 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-zammad}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - zammad-net
+
+  recipes-api:
+    container_name: recipes-api
+    build:
+      context: .
+      dockerfile: services/recipes-api/Dockerfile
+    image: ${DOCKER_REGISTRY:-local}/recipes-api:latest
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL=${RECIPES_DATABASE_URL:-postgresql+psycopg://$${POSTGRES_USER:-zammad}:$${POSTGRES_PASSWORD:-zammad}@postgres:5432/$${POSTGRES_DB:-zammad_production}}
+      - DB_SCHEMA=recipes
+    networks:
+      - zammad-net
+
+  recipes-frontend:
+    container_name: recipes-frontend
+    build:
+      context: .
+      dockerfile: services/recipes-frontend/Dockerfile
+    image: ${DOCKER_REGISTRY:-local}/recipes-frontend:latest
+    depends_on:
+      - recipes-api
     networks:
       - zammad-net
 
@@ -82,6 +108,8 @@ services:
     restart: unless-stopped
     depends_on:
       - zammad
+      - recipes-api
+      - recipes-frontend
     environment:
       REMOTE_DOMAIN: ${REMOTE_DOMAIN:-localhost}
     volumes:

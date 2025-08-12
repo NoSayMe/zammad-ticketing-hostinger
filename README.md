@@ -106,6 +106,7 @@ All additional guides are stored in the [`docs/`](docs/) directory:
 - **[troubleshooting.md](docs/troubleshooting.md)** – Accessing logs, common errors.
 - **[zammad.md](docs/zammad.md)** – Zammad service and admin setup.
 - **[wiki.md](docs/wiki.md)** – Container serving the documentation at `/wiki`.
+- **[recipes.md](docs/recipes.md)** – Recipe Manager service.
 
 These documents will grow alongside the project as more features (like Microsoft 365 integration or n8n workflows) are added.
 
