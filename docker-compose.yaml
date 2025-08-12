@@ -31,8 +31,8 @@ services:
   recipes-api:
     container_name: recipes-api
     build:
-      context: .
-      dockerfile: services/recipes-api/Dockerfile
+      context: ./services
+      dockerfile: recipes-api/Dockerfile
     image: ${DOCKER_REGISTRY:-local}/recipes-api:latest
     depends_on:
       - postgres
@@ -45,8 +45,8 @@ services:
   recipes-frontend:
     container_name: recipes-frontend
     build:
-      context: .
-      dockerfile: services/recipes-frontend/Dockerfile
+      context: ./services
+      dockerfile: recipes-frontend/Dockerfile
     image: ${DOCKER_REGISTRY:-local}/recipes-frontend:latest
     depends_on:
       - recipes-api
