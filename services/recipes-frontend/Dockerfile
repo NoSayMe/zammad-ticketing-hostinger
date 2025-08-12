@@ -1,9 +1,9 @@
 # Build stage
 FROM node:20-alpine AS build
 WORKDIR /app
-COPY services/recipes-frontend/package.json services/recipes-frontend/package-lock.json* ./
+COPY recipes-frontend/package.json services/recipes-frontend/package-lock.json* ./
 RUN npm install --no-audit --no-fund
-COPY services/recipes-frontend/ ./
+COPY recipes-frontend/ ./
 RUN npm run build
 
 # Serve stage
