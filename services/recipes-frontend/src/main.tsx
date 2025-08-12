@@ -167,17 +167,17 @@ function Print({ id }: { id: string }) {
   const [data, setData] = useState<any>(null)
   useEffect(()=>{ get<any>(`/recipes/${id}/scale?portions=${portions}`).then(setData) }, [id, portions])
   useEffect(()=>{ if (data) setTimeout(()=>window.print(), 300) }, [data])
-  if (!data) return <div className=\"p-4\">Loading…</div>
+  if (!data) return <div className="p-4">Loading…</div>
   return (
-    <div className=\"p-8 print:p-0 print:m-0\">
-      <div className=\"flex justify-between items-center mb-4\">
+    <div className="p-8 print:p-0 print:m-0">
+      <div className="flex justify-between items-center mb-4">
         <div>
-          <div className=\"text-2xl font-bold\">{data.name}</div>
-          <div className=\"text-gray-600\">{data.category} • {data.portions} portions</div>
+          <div className="text-2xl font-bold">{data.name}</div>
+          <div className="text-gray-600">{data.category} • {data.portions} portions</div>
         </div>
-        <input type=\"number\" className=\"border p-1 rounded w-24 no-print\" value={portions} onChange={e=>setPortions(parseInt(e.target.value||'1'))} />
+        <input type="number" className="border p-1 rounded w-24 no-print" value={portions} onChange={e=>setPortions(parseInt(e.target.value||'1'))} />
       </div>
-      <table className=\"min-w-full border text-sm\">
+      <table className="min-w-full border text-sm">
         <thead className="bg-gray-100">
           <tr>
             <th className="p-1 border">Name</th>
