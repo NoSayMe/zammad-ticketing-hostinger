@@ -10,7 +10,8 @@ COPY recipes-api/requirements.txt /tmp/requirements.txt
 
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
-COPY services/recipes-api/app /app/app
+# Build context is the services directory, so paths are relative to it
+COPY recipes-api/app /app/app
 
 EXPOSE 8000
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
