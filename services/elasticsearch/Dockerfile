@@ -6,4 +6,4 @@ ENV discovery.type=single-node \
 
 VOLUME ["/usr/share/elasticsearch/data"]
 
-CMD ["/usr/local/bin/docker-entrypoint.sh"]
+# Use the base image's default ENTRYPOINT and CMD
