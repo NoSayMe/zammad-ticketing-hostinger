@@ -18,3 +18,4 @@ nav:
   - Zammad: zammad.md
   - Homepage: homepage.md
   - Agent Guide: agent_prompt.md
+  - Recipe Manager: recipes.md
