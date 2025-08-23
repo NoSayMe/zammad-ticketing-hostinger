@@ -12,8 +12,7 @@ server {
     }
 
     location /recipes/ {
-        set $recipes_frontend "recipes-frontend";
-        proxy_pass http://$recipes_frontend/recipes/;
+        proxy_pass http://recipes-frontend/recipes/;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -21,8 +20,7 @@ server {
     }
 
     location /recipes-api/ {
-        set $recipes_api "recipes-api:8000";
-        proxy_pass http://$recipes_api/;
+        proxy_pass http://recipes-api:8000/;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
