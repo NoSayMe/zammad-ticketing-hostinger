@@ -43,11 +43,12 @@ The API connects to the main Postgres database and creates a dedicated `recipes`
 
 ## Troubleshooting
 
-- If `/recipes/` returns `502 Bad Gateway`, ensure NGINX uses a fixed upstream name:
+- If `/recipes/` returns `502 Bad Gateway` or NGINX logs `host not found in upstream`, ensure the upstream is assigned to a variable before `proxy_pass`:
 
   ```nginx
   location /recipes/ {
-      proxy_pass http://recipes-frontend/recipes/;
+      set $recipes_frontend recipes-frontend;
+      proxy_pass http://$recipes_frontend/recipes/;
   }
   ```
 
