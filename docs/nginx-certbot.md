@@ -12,6 +12,10 @@ services/nginx/              # Dockerfile and config templates
 
 NGINX loads global settings from `services/nginx/nginx.conf` and includes all files under `/etc/nginx/conf.d/`. If `nginx.conf` is missing when the image is built, the Dockerfile falls back to `default.conf.template` and prints a warning. During container start the entrypoint checks if `/etc/nginx/conf.d/default.conf` exists. If not, it generates one from `conf.d/default.conf.template` (HTTPS) or `conf.d/default.http.conf.template` when no certificate is present. This behaviour is handled by the helper script `ensure-config.sh` and lets you mount your own `default.conf` to override the template.
 
+## Dynamic Upstream Resolution
+
+The default configuration defines upstream container hosts (such as `zammad`) via variables and Docker's internal DNS resolver (`127.0.0.11`). This defers name resolution until request time so `nginx -t` succeeds even when those services aren't yet reachable, avoiding startup errors like `host not found in upstream`.
+
 ## Volume Mount Strategy
 
 Both the NGINX and Certbot containers share a named volume `certbot_webroot` mounted to `/var/www/certbot`. Challenge files created by Certbot appear instantly inside NGINX:
