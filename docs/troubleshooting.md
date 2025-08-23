@@ -54,14 +54,27 @@ If `docker logs nginx` shows an error like:
 host not found in upstream "zammad" in /etc/nginx/conf.d/default.conf:27
 ```
 
-the proxy container cannot resolve the `zammad` hostname during the
-initial configuration test. The template now defers DNS resolution by
-using a variable in `proxy_pass`:
+or similar messages for `recipes-frontend` or `recipes-api`, the proxy
+container cannot resolve the target hostname during the initial
+configuration test. The template now defers DNS resolution by using a
+variable in `proxy_pass`:
 
 ```nginx
 location /zammad/ {
     set $zammad_upstream "zammad:3000";
     proxy_pass http://$zammad_upstream/;
+    ...
+}
+
+location /recipes/ {
+    set $recipes_frontend "recipes-frontend";
+    proxy_pass http://$recipes_frontend/recipes/;
+    ...
+}
+
+location /recipes-api/ {
+    set $recipes_api "recipes-api:8000";
+    proxy_pass http://$recipes_api/;
     ...
 }
 ```
