@@ -26,6 +26,14 @@ Check the container logs if the site doesn't load:
 docker logs wiki
 ```
 
+- If the page loads without styling, ensure the reverse proxy strips the `/wiki` prefix:
+
+  ```nginx
+  location /wiki/ {
+      proxy_pass http://wiki/;
+  }
+  ```
+
 ---
 🔗 Back to [Main README](README/index.md)
 📚 See also: [Homepage](homepage.md) | [First Run Checks](first-run-checks.md)
