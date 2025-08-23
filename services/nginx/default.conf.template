@@ -14,7 +14,7 @@ server {
 server {
     listen 443 ssl;
     server_name ${REMOTE_DOMAIN};
-    resolver 127.0.0.11 valid=30s;
+    resolver 127.0.0.11 valid=30s ipv6=off;
 
     ssl_certificate /etc/letsencrypt/live/${REMOTE_DOMAIN}/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/${REMOTE_DOMAIN}/privkey.pem;
@@ -35,7 +35,7 @@ server {
 
     location /recipes/ {
         set $recipes_frontend "recipes-frontend";
-        proxy_pass http://$recipes_frontend/recipes/;
+        proxy_pass http://$recipes_frontend;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -56,7 +56,8 @@ server {
     }
 
     location /wiki/ {
-        proxy_pass http://wiki/;
+        set $wiki_upstream "wiki";
+        proxy_pass http://$wiki_upstream/;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
